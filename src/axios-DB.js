@@ -1,8 +1,8 @@
 import axios from 'axios';
-import { SEHost } from './shared/consts';
+import { DBHost } from './shared/consts';
 
 const instance = axios.create({
-    baseURL: SEHost
+    baseURL: DBHost
 });
 
 export default instance;  

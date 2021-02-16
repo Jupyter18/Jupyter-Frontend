@@ -1,6 +1,6 @@
 // General Const
-const IEEEMGtool = 'http://localhost:9000';
-export const SEHost = IEEEMGtool;
+const IEEEMGtool = 'http://localhost:4000';
+export const DBHost = IEEEMGtool;
 
 // Auth Const
 export const authRedirectPath = '/';

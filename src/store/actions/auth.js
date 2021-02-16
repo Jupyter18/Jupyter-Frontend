@@ -1,4 +1,4 @@
-import axios from '../../axios-SE';
+import axios from '../../axios-DB';
 import * as actionTypes from './actionTypes';
 import { loginRoute, authRequestTimeoutSec } from '../../shared/consts';
 
