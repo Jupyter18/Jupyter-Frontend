@@ -15,7 +15,7 @@ import { updateObject } from '../../shared/utility';
 import { buildTextFields } from '../../helpers/uiHelpers';
 import { auth } from '../../store/actions/index';
 import { addAlert } from '../../store/actions/index';
-import * as routez from '../../shared/routes';
+// import * as routez from '../../shared/routes';
 
 
 const inputDefinitions = {

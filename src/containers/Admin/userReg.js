@@ -1,8 +1,10 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { connect } from 'react-redux';
 
 import {saveuser} from "../../api/Users"
 import * as actions from '../../store/actions/index';
+import Navbar from "../../components/Navbar/Navbar"
+import { getAllItemsReg} from "../../api/Other";
 
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
@@ -89,9 +91,8 @@ const inputDefinitions = {
             validationErrStr: 'Enter a valid email',
         }
     },
-    contactnumber: {
-        label: 'Password*',
-        type: 'password',
+    contactNumber: {
+        label: 'contactNumber*',
         validations: {
             required: true,
             minLength: 9,
@@ -100,8 +101,7 @@ const inputDefinitions = {
         }
     },
     supID: {
-        label: 'Password*',
-        type: 'password',
+        label: 'supID*',
         validations: {
             required: true,
             validationErrStr: 'Required a value',
@@ -111,17 +111,40 @@ const inputDefinitions = {
 const UserProfile = props =>  {
     const classes = useStyles();
     const { addAlert } = props;
-
+    const [isLoading, setIsLoading] = useState(true);
     const [firstname, setFirstName] =useState();
     const [firstnameerr, setFirstNameerr] =useState();
     const [lastname, setLastName] =useState();
     const [lastnameerr, setLastNameerr] =useState();
     const [email, setEmail] =useState();
     const [emailerr, setEmailerr] =useState();
-    const [contactnumber, setContactNumber] =useState();
-    const [contactnumbererr, setContactNumbererr] =useState();
+    const [contactNumber, setContactNumber] =useState();
+    const [contactNumbererr, setContactNumbererr] =useState();
     const [supID, setsupID] =useState();
     const [supIDerr, setsupIDerr] =useState();
+    const [departments, setDepartment] = useState([]);
+    const [emp_status, setEmpStatus] = useState([]);
+    const [paygradeDM, setPaygradeDM] = useState([]);
+    const [jobtitleDM, setJobtitleDM] = useState([]);
+    const [branchDM, setBranchDM] = useState([]);
+
+    useEffect(() => {
+        if (isLoading) {
+            console.log(1)
+          getAllItemsReg()
+            .then((response) => {
+              if (!response.error) {
+                console.log(response.data)
+                setDepartment(response.data.department);
+                setEmpStatus(response.data.employment_status);
+                setPaygradeDM(response.data.pay_grade)
+                setJobtitleDM(response.data.job_title)
+                setBranchDM(response.data.branch)
+              }
+            })
+            .finally(() => setIsLoading(false));
+        }
+      }, [isLoading]);
 
     const inputChangeHandler = useCallback((event, inputId) => {
         let validationConst = inputDefinitions[inputId].validations;
@@ -142,7 +165,8 @@ const UserProfile = props =>  {
             setContactNumber(event.target.value)
             setContactNumbererr(!isValid)
         }
-        if (inputId==="SupId") {
+        if (inputId==="supID") {
+            console.log(event.target.value)
             setsupID(event.target.value)
             setsupIDerr(!isValid)
         }
@@ -155,43 +179,47 @@ const UserProfile = props =>  {
     };
 
     // martial status
-    const [martialstate, setMartialstate] = React.useState('');
+    const [martialstate, setMartialstate] = useState('');
     const handleChangeMS = (event) => {
         setMartialstate(event.target.value);
     };
 
     // gender
-    const [gender, setGender] = React.useState('');
+    const [gender, setGender] = useState('');
     const handleChangeG = (event) => {
         setGender(event.target.value);
     };
 
     // dep
-    const [dep, setDep] = React.useState('');
+    const [dep, setDep] = useState();
     const handleChangeD = (event) => {
+        console.log("hiiiii")
+        console.log(dep)
+        console.log(event.target.value)
         setDep(event.target.value);
+        console.log(dep)
     };
 
     // jobname
-    const [jobname, setJob] = React.useState('');
+    const [jobname, setJob] = useState();
     const handleChangeJ = (event) => {
         setJob(event.target.value);
     };
 
     // paygrade
-    const [paygrade, setPayGrade] = React.useState('');
+    const [paygrade, setPayGrade] = useState();
     const handleChangeP = (event) => {
         setPayGrade(event.target.value);
     };
 
     // empstatus
-    const [empstatus, setEmpStastus] = React.useState('');
+    const [empstatus, setEmpStastus] = useState();
     const handleChangeE = (event) => {
         setEmpStastus(event.target.value);
     };
 
     // branch
-    const [branch, setBranch] = React.useState('');
+    const [branch, setBranch] = useState();
     const handleChangeB = (event) => {
         setBranch(event.target.value);
     };
@@ -200,7 +228,7 @@ const UserProfile = props =>  {
     const [state, setState] = useState(false);
     
       const handleChangesupervisor = (event) => {
-        setState({ ...state, [event.target.name]: event.target.checked });
+        setState(event.target.checked);
       };
 
     const onSubmitHandler = useCallback((event) => {
@@ -208,7 +236,7 @@ const UserProfile = props =>  {
         let obj={
             "first_name": firstname,
             "last_name": lastname,
-            "birth_date": selectedDate,
+            "birth_date": "1997-07-28",
             "marital_status": martialstate,
             "email": email,
             "gender": gender,
@@ -216,40 +244,29 @@ const UserProfile = props =>  {
             "pay_grade_id": paygrade,
             "employment_status_id": empstatus,
             "department_id": dep,
-            "brach_id": branch,
+            "branch_id": branch,
             "is_supervisor": state,
             "supervisor_id": supID,
-            "contact_no": contactnumber
+            "contact_no": contactNumber
         }
-        console.log(firstname)
-        console.log(lastname)
-        console.log(selectedDate)
-        console.log(martialstate)
-        console.log(email)
-        console.log(gender)
-        console.log(jobname)
-        console.log(paygrade)
-        console.log(empstatus)
-        console.log(dep)
-        console.log(branch)
-        console.log(state)
-        console.log(supID)
-        console.log(state)
-        console.log(contactnumber)
         saveuser(obj)
                 .then((response) => {
                     if (!response.error) {
                         addAlert({
                             message: "User Saved Successfully!",
                         });
+                    }else{
+                        console.log(response)
                     }
+                    
                 })
-    }, []);
+    }, [addAlert,branch,contactNumber,dep,email,empstatus,firstname,gender,jobname,lastname,martialstate,paygrade,state,supID]);
 
     
 
     return (
         <div className={classes.root}>
+            <Navbar/>
             <Paper className={classes.paper}>    
                 <Card className={classes.card}>
                     <CardHeader
@@ -320,9 +337,10 @@ const UserProfile = props =>  {
                                         id="martial status"
                                         value={martialstate}
                                         onChange={handleChangeMS}
+                                        defaultValue="" 
                                     >
-                                        <MenuItem value={0}>Single</MenuItem>
-                                        <MenuItem value={1}>Married</MenuItem>
+                                        <MenuItem value={"S"}>Single</MenuItem>
+                                        <MenuItem value={"M"}>Married</MenuItem>
                                     </Select>
                                 </FormControl>
                             </Grid>
@@ -343,9 +361,9 @@ const UserProfile = props =>  {
                                     label="Contact Number"
                                     type="name"
                                     fullWidth
-                                    autoComplete="contactnumber"
-                                    onChange={(event)=>inputChangeHandler(event,"contactnumber")}
-                                    error={contactnumbererr}
+                                    autoComplete="mobilenumber"
+                                    onChange={(event)=>inputChangeHandler(event,"contactNumber")}
+                                    error={contactNumbererr}
                                 />
                             </Grid>
                             <Grid item xs={12} sm={6}>
@@ -356,79 +374,60 @@ const UserProfile = props =>  {
                                         id="gender"
                                         value={gender}
                                         onChange={handleChangeG}
+                                        defaultValue="" 
                                     >
-                                        <MenuItem value={0}>Male</MenuItem>
-                                        <MenuItem value={1}>Female</MenuItem>
+                                        <MenuItem value={"M"}>Male</MenuItem>
+                                        <MenuItem value={"F"}>Female</MenuItem>
                                     </Select>
                                 </FormControl>
                             </Grid>
                             <Grid item xs={12} sm={6}>
                             <FormControl className={classes.formControl}>
                                     <InputLabel id="departmetlabel"> Department</InputLabel>
-                                    <Select
-                                        labelId="Department"
-                                        id="department"
-                                        value={dep}
-                                        onChange={handleChangeD}
-                                    >
-                                        <MenuItem value={0}>CSE</MenuItem>
-                                        <MenuItem value={1}>TRICAL</MenuItem>
+                                    <Select onChange={handleChangeD} value={dep} defaultValue="" >
+                                        {departments.map((dept) => (
+                                            <MenuItem value={dept.department_id}>{dept.department_name}</MenuItem>
+                                        ))}
                                     </Select>
                                 </FormControl>
                             </Grid>
                             <Grid item xs={12} sm={6}>
                                 <FormControl className={classes.formControl}>
                                     <InputLabel id="jobtitlelabel">Job Title</InputLabel>
-                                    <Select
-                                        labelId="Job Title"
-                                        id="job title"
-                                        value={jobname}
-                                        onChange={handleChangeJ}
-                                    >
-                                        <MenuItem value={0}>HRM</MenuItem>
-                                        <MenuItem value={1}>Supervisor</MenuItem>
-                                    </Select>
+                                    <Select onChange={handleChangeJ} value={jobname} defaultValue="" >
+                                        {jobtitleDM.map((job) => (
+                                            <option value={job.job_title_id}>{job.job_name}</option>
+                                        ))}
+                                    </Select >
                                 </FormControl>
                             </Grid>
                             <Grid item xs={12} sm={6}>
                                 <FormControl className={classes.formControl}>
                                         <InputLabel id="paygradelabel">Pay Grade</InputLabel>
-                                        <Select
-                                            labelId="Pay Grade"
-                                            id="paygrade"
-                                            value={paygrade}
-                                            onChange={handleChangeP}
-                                        >
-                                            <MenuItem value={1}>1</MenuItem>
-                                            <MenuItem value={2}>2</MenuItem>
+                                        <Select onChange={handleChangeP} value={paygrade} defaultValue="" >
+                                            {paygradeDM.map((pay) => (
+                                                <option value={pay.pay_grade_id}>{pay.pay_level}</option>
+                                            ))}
                                         </Select>
                                     </FormControl>
                             </Grid>
                             <Grid item xs={12} sm={6}>
                             <   FormControl className={classes.formControl}>
                                     <InputLabel id="employmetntstatuslabel">Emplyment Status</InputLabel>
-                                    <Select
-                                        labelId="Employment Status"
-                                        id="employmentstatus"
-                                        value={empstatus}
-                                        onChange={handleChangeE}
-                                    >
-                                        <MenuItem value={0}>Permanent</MenuItem>
-                                        <MenuItem value={1}>Temperary</MenuItem>
+                                    <Select onChange={handleChangeE} value={empstatus} defaultValue="" >
+                                        {emp_status.map((emp_status) => (
+                                            <option value={emp_status.employment_status_id}>{emp_status.category}</option>
+                                        ))}
                                     </Select>
                                 </FormControl>
                             </Grid>
                             <Grid item xs={12} sm={6}>
                                 <FormControl className={classes.formControl}>
                                     <InputLabel id="branchlabel">Branch</InputLabel>
-                                    <Select
-                                        labelId="Branch"
-                                        id="branch"
-                                        value={branch}
-                                        onChange={handleChangeB}
-                                    >
-                                        <MenuItem value={1}>Sri Lanka</MenuItem>
-                                        <MenuItem value={2}>India</MenuItem>
+                                    <Select onChange={handleChangeB} value={branch} defaultValue="" >
+                                        {branchDM.map((branch) => (
+                                            <option value={branch.branch_id}>{branch.branch_name}</option>
+                                        ))}
                                     </Select>
                                 </FormControl>
                             </Grid>
@@ -446,11 +445,11 @@ const UserProfile = props =>  {
                             />
                             </Grid>
                             <Grid item xs={12} sm={6}>
-                                <TextField id="outlined-basic" label="Outlined" variant="outlined" error={false} onChange={(event)=>inputChangeHandler(event,"contactnumber")} error={supIDerr}/>
+                                <TextField id="outlined-basic" label="Supervisor ID" variant="outlined" onChange={(event)=>inputChangeHandler(event,"supID")} error={supIDerr}/>
                             </Grid>
                         </Grid>
                         <Button variant="contained" color="primary" className={classes.button} type="submit" fullWidth>
-                            Primary
+                            Save
                         </Button>
                         </form>
                     </CardContent>

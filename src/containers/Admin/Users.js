@@ -1,13 +1,18 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { connect } from 'react-redux';
 import { useHistory } from "react-router-dom";
+import { makeStyles } from "@material-ui/core/styles";
 
 import { getAllUsers, deleteUsers, updateUsers } from "../../api/Users";
+import { getAllItems} from "../../api/Other";
 import {removeItemFromArray, replaceItemInArray} from "../../shared/utility"
 // import { USERS } from "../../shared/routes";
 import Table from "../../components/UI/Table/MaterialTable/Table";
 // import Spinner from "../../components/UI/Spinner/Spinner";
 import * as actions from '../../store/actions/index';
+import { Button } from "@material-ui/core";
+import * as routez from '../../shared/routes';
+import Navbar from "../../components/Navbar/Navbar"
 // import { SNACKBAR } from "../../components/UI/FHSnackBar/FHSnackBar";
 // import FHButton from "../../components/UI/FHButton/FHButton";
 // import Switch from '@material-ui/core/Switch';
@@ -19,19 +24,47 @@ const tableOptions = {
   pageSizeOptions: [10, 30, 50]
 };
 
+const useStyles = makeStyles((theme) => ({
+    root: {
+      flexGrow: 1,
+      overflow: "visible",
+      height:"100%"
+    },
+}));
+
 const Users = props => {
+  const classes = useStyles();
   const { addAlert } = props;
   const history = useHistory();
   const [isLoading, setIsLoading] = useState(true);
   const [users, setUsers] = useState([]);
-
+  const [departments, setDepartment] = useState();
+  const [emp_status, setEmpStatus] = useState();
+  const [paygradeDM, setPaygradeDM] = useState();
+  const [jobtitleDM, setJobtitleDM] = useState();
+  const [branchDM, setBranchDM] = useState();
   useEffect(() => {
     if (isLoading) {
         getAllUsers()
         .then((response) => {
           if (!response.error) {
-            console.log(response.data);
             setUsers(response.data);
+          }
+        })
+        .finally(() => setIsLoading(false));
+    }
+  }, [isLoading]);
+
+  useEffect(() => {
+    if (isLoading) {
+      getAllItems()
+        .then((response) => {
+          if (!response.error) {
+            setDepartment(response.data.department);
+            setEmpStatus(response.data.employment_status);
+            setPaygradeDM(response.data.pay_grade)
+            setJobtitleDM(response.data.job_title)
+            setBranchDM(response.data.branch)
           }
         })
         .finally(() => setIsLoading(false));
@@ -59,6 +92,7 @@ const Users = props => {
 
   const updateUser = useCallback(
     (oldLesson,newLesson) => {
+        delete newLesson.emp_id;
         console.log(newLesson)
         return new Promise((resolve, reject) => {
             updateUsers(oldLesson.emp_id, newLesson)
@@ -67,14 +101,15 @@ const Users = props => {
                         addAlert({
                             message: "User Updated Successfully!",
                         });
-                        setUsers(replaceItemInArray(users, 'emp_id', response.data, oldLesson.emp_id))
+                        console.log(replaceItemInArray(users, 'emp_id', newLesson, oldLesson.emp_id))
+                        setUsers(replaceItemInArray(users, 'emp_id', newLesson, oldLesson.emp_id))
                         return resolve();
                     }
                     return reject();
                 })
         });
     },
-    [addAlert, users]
+    [addAlert, users, setUsers]
   );
 
 //   const renderStatus = useCallback(
@@ -102,10 +137,10 @@ const Users = props => {
 //     [resetDeviceHandler]
 //   );
 
-//   const renderProfileBtn = useCallback(
-//     (rowData) => <FHButton color="primary" onClick={() => history.push(`${USERS}/${rowData.id}`)}>Profile</FHButton>,
-//     [history]
-//   );
+  const renderProfileBtn = useCallback(
+    (rowData) => <Button color="primary" onClick={() => history.push(`${routez.USER}/${rowData.emp_id}`)}>Profile</Button>,
+    [history]
+  );
 
 //   const renderStatusSwitch = useCallback(
 //     (rowData) => (
@@ -120,21 +155,21 @@ const Users = props => {
 //   );
 
   const tableColumns = [
-    { title: "Employee ID", field: "emp_id" },
+    { title: "Employee ID", field: "emp_id", editable:"never" },
     { title: "First Name", field: "first_name" },
     { title: "Last Name", field: "last_name" },
     { title: "Birth Date", field: "birth_date",type: "date" },
     { title: "Martial Status", field: "marital_status", lookup: { S:"single", M:"Married"}},
     { title: "Email", field: "email" },
     { title: "Gender", field: "gender", lookup: { M:"male", F:"Female"}},
-    { title: "Job Title", field: "job_name", lookup: { HR_Manager:"HR_Manager", Accountant:"Accountant", Software_Engineer:"Software_Engineer"}},
-    { title: "Pay Grade", field: "pay_level", lookup: { Level_1:"Level_1", Level_2:"Level_2",Level_3:"Level_3"}},
-    { title: "Employment Status", field: "category", lookup: { 'Intern-Parttime':"Intern-Parttime", 'Intern-Fulltime':"Intern-Fulltime"}},
-    { title: "Department", field: "department_name", lookup: { HR_Department:"HR_Department", Finance_Department:"Finance_Department"}},
-    { title: "Branch", field: "branch_name", lookup: { 'Sri Lanka':"Sri Lanka", 'India':"India", 'Bangladesh':"Bangladesh"}},
+    { title: "Job Title", field: "job_title_id", lookup: jobtitleDM},
+    { title: "Pay Grade", field: "pay_grade_id", lookup: paygradeDM},
+    { title: "Employment Status", field: "employment_status_id", lookup:emp_status},
+    { title: "Department", field: "department_id", lookup: departments},
+    { title: "Branch", field: "branch_id", lookup: branchDM},
     { title: "Supervisor ID", field: "supervisor_id" },
     { title: "Supervisor ID", field: "is_supervisor",lookup: { 0:"False", 1:"True"} },
-    // { title: "Profile", render: renderProfileBtn },
+    { title: "Profile", render: renderProfileBtn },
     // { title: "Reset user device", render: renderResetBtn },
     // { title: "User status", render: renderStatusSwitch },
   ];
@@ -142,16 +177,21 @@ const Users = props => {
   if (false) {
     // return <Spinner />
   } else {
-    return <Table
-      data={users}
-      title={tableTitle}
-      columns={tableColumns}
-      tableOptions={tableOptions}
-      editable={{
-        onRowUpdate: (newData, oldData) => updateUser(oldData, newData ),
-        onRowDelete: oldData =>deleteUser(oldData),
-      }}
-    />
+    return (
+      <div className={classes.root}>
+        <Navbar/>
+        <Table
+          data={users}
+          title={tableTitle}
+          columns={tableColumns}
+          tableOptions={tableOptions}
+          editable={{
+            onRowUpdate: (newData, oldData) => updateUser(oldData, newData ),
+            onRowDelete: oldData =>deleteUser(oldData),
+          }}
+        />
+      </div>
+    )
   }
 };
 
