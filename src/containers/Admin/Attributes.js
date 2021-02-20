@@ -50,7 +50,7 @@ const Users = props => {
   const deleteUser = useCallback(
     (oldUser) => {
       return new Promise((resolve, reject) => {
-        deleteCusAttributes(oldUser.officerID)
+        deleteCusAttributes(oldUser.COLUMN_NAME)
               .then((response) => {
                 console.log(response);
                   if (!response.error) {
