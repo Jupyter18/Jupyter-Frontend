@@ -132,9 +132,11 @@ function SignIn(props) {
     }, [authError,history]);
 
     // console.log(props.isAuthenticated)
-    // console.log(props.isAdmin)
-    // console.log(props.isHrm)
+    console.log("123")
+    console.log(props.isAdmin)
+    console.log(props.isHrm)
     console.log(props.IsSupervisor)
+    console.log("123")
     // console.log(props.employeeID)
     let authRedirect = null;
     if (props.isAuthenticated){
@@ -142,6 +144,10 @@ function SignIn(props) {
             authRedirect = <Redirect to={routez.USER} />
         }else if(props.IsSupervisor===1){
             authRedirect = <Redirect to={routez.VIEWLEAVEAPPLICATION} />
+        }else if(props.IsSupervisor===1){
+            authRedirect = <Redirect to={routez.VIEWLEAVEAPPLICATION} />
+        }else{
+            authRedirect = <Redirect to={routez.EMPVIEWPROFILE} />
         }
     }
 
