@@ -10,3 +10,5 @@ export const deleteUsers = (id) => deleteRequest(`${BASE_URL}/${id}`);
 export const updateUsers = (id,data) => putRequest(`${BASE_URL}/user/${id}`,data);
 
 export const saveuser = (data) => postRequest(`${BASE_URL}/user`,data);
+
+export const getEmployeeDetails = (id) => getRequest(`/api/employee/profile/${id}`);

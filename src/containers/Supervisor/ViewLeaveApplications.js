@@ -9,7 +9,7 @@ import Table from "../../components/UI/Table/MaterialTable/Table";
 import * as actions from '../../store/actions/index';
 import { Button } from "@material-ui/core";
 import * as routez from '../../shared/routes';
-import Navbar from "../../components/Navbar/Navbar"
+import Navbar from "../../components/Navbar/NavbarSup"
 
 const tableTitle = "User Information";
 
@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const Users = props => {
+const Leaves = props => {
   const classes = useStyles();
   const { addAlert } = props;
   const history = useHistory();
@@ -34,16 +34,16 @@ const Users = props => {
   const [leaves, setLeaves] = useState([]);
 
   useEffect(() => {
-    if (isLoading) {
-      getAllLeavesApplications()
+    console.log(props.employeeID)
+      getAllLeavesApplications(props.employeeID)
         .then((response) => {
+          console.log(response)
           if (!response.error) {
             setLeaves(response.data);
           }
         })
         .finally(() => setIsLoading(false));
-    }
-  }, [iscLoading]);
+  }, [props.employeeID]);
 
   const AcceptLeave = useCallback(() => {
     Accept_Leave(1)
@@ -52,7 +52,6 @@ const Users = props => {
             if (!response.error) {
                 addAlert({
                     message: "Leave Accepted Successful!",
-                    type: SNACKBAR
                 });
             }
         });
@@ -65,7 +64,6 @@ const Users = props => {
                 if (!response.error) {
                     addAlert({
                         message: "Leave Rejected Successful!",
-                        type: SNACKBAR
                     });
                 }
             });
@@ -86,22 +84,15 @@ const Users = props => {
 
 
   const tableColumns = [
-    { title: "Employee ID", field: "emp_id", editable:"never" },
-    { title: "First Name", field: "first_name" },
-    { title: "Last Name", field: "last_name" },
-    { title: "Birth Date", field: "birth_date",type: "date" },
-    { title: "Martial Status", field: "marital_status", lookup: { S:"single", M:"Married"}},
-    { title: "Email", field: "email" },
-    { title: "Gender", field: "gender", lookup: { M:"male", F:"Female"}},
-    { title: "Job Title", field: "job_title_id", lookup: jobtitleDM},
-    { title: "Pay Grade", field: "pay_grade_id", lookup: paygradeDM},
-    { title: "Employment Status", field: "employment_status_id", lookup:emp_status},
-    { title: "Department", field: "department_id", lookup: departments},
-    { title: "Branch", field: "branch_id", lookup: branchDM},
-    { title: "Supervisor ID", field: "supervisor_id" },
-    { title: "Supervisor ID", field: "is_supervisor",lookup: { 0:"False", 1:"True"} },
-    { title: "Profile", render: renderAcceptBtn },
-    { title: "Profile", render: renderRejectBtn },
+    { title: "First Name", field: "first_name"},
+    { title: "Last Name", field: "last_name"},
+    { title: "Employee Id", field: "emp_id"},
+    { title: "Leave Date", field: "leave_date"},
+    { title: "Leave Type Id", field: "leave_type_id"},
+    { title: "Leave Ammount", field: "leave_ammount"},
+    { title: "Leave Count", field: "leavecount"},
+    { title: "Accept", render: renderAcceptBtn },
+    { title: "Reject", render: renderRejectBtn },
   ];
 
   if (false) {
@@ -121,10 +112,22 @@ const Users = props => {
   }
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapStateToProps = (state) => {
   return {
-    addAlert: alert => dispatch(actions.addAlert(alert))
-  };
+      error: state.auth.error,
+      loading: state.auth.loading,
+      isAuthenticated: state.auth.token != null,
+      authRedirectPath: state.auth.authRedirectPath,
+      employeeID:state.auth.employeeID,
+      isAdmin:state.auth.IsAdmin,
+      isHrm:state.auth.IsHrm,
+      IsSupervisor:state.auth.IsSupervisor,
+  }
 }
 
-export default connect(null, mapDispatchToProps)(Users);
+const mapDispatchToProps = (dispatch) => {
+  return {
+  }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Leaves);

@@ -1,5 +1,6 @@
 import React, { useState, useCallback, useEffect}  from 'react';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 import { useHistory } from "react-router-dom";
 
 import Avatar from '@material-ui/core/Avatar';
@@ -133,11 +134,14 @@ function SignIn(props) {
     // console.log(props.isAuthenticated)
     // console.log(props.isAdmin)
     // console.log(props.isHrm)
-    // console.log(props.IsSupervisor)
+    console.log(props.IsSupervisor)
     // console.log(props.employeeID)
+    let authRedirect = null;
     if (props.isAuthenticated){
         if(props.isAdmin===1){
-            history.push(routez.USER);
+            authRedirect = <Redirect to={routez.USER} />
+        }else if(props.IsSupervisor===1){
+            authRedirect = <Redirect to={routez.VIEWLEAVEAPPLICATION} />
         }
     }
 
@@ -168,6 +172,7 @@ function SignIn(props) {
                 </div>
             </Container>
         </div>
+        {authRedirect}
     </React.Fragment>
   );
 }

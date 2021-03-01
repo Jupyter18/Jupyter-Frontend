@@ -74,6 +74,7 @@ export const auth = (email, password) => (dispatch) => {
                 console.log(localStorage.getItem('isAdmin'))
                 console.log(localStorage.getItem('isSupervisor'))
                 console.log(localStorage.getItem('isHrm'))
+                console.log("hiiiii")
                 dispatch(authSuccess(response.data.token, response.data.emp_id,response.data.is_admin,response.data.is_hrm,response.data.is_supervisor));
                 dispatch(checkAuthTimeout(authRequestTimeoutSec));
         }).catch((error) =>{
