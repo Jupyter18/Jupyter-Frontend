@@ -249,6 +249,7 @@ const UserProfile = props =>  {
             "supervisor_id": supID,
             "contact_no": contactNumber
         }
+        console.log(JSON.stringify(obj))
         saveuser(obj)
                 .then((response) => {
                     if (!response.error) {

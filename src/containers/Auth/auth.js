@@ -15,15 +15,14 @@ import { updateObject } from '../../shared/utility';
 import { buildTextFields } from '../../helpers/uiHelpers';
 import { auth } from '../../store/actions/index';
 import { addAlert } from '../../store/actions/index';
-// import * as routez from '../../shared/routes';
+import * as routez from '../../shared/routes';
 
 
 const inputDefinitions = {
     gmail: {
-        label: 'Email*',
+        label: 'Employee ID*',
         validations: {
             required: true,
-            isEmail: true,
             validationErrStr: 'Enter a valid email',
         }
     },
@@ -131,9 +130,16 @@ function SignIn(props) {
         }
     }, [authError,history]);
 
-    // if (props.isAuthenticated){
-
-    // }
+    // console.log(props.isAuthenticated)
+    // console.log(props.isAdmin)
+    // console.log(props.isHrm)
+    // console.log(props.IsSupervisor)
+    // console.log(props.employeeID)
+    if (props.isAuthenticated){
+        if(props.isAdmin===1){
+            history.push(routez.USER);
+        }
+    }
 
   return (
     <React.Fragment>
@@ -172,8 +178,10 @@ const mapStateToProps = (state) => {
         loading: state.auth.loading,
         isAuthenticated: state.auth.token != null,
         authRedirectPath: state.auth.authRedirectPath,
-        usertype:state.auth.usertype,
-        stationID:state.auth.stationID,
+        employeeID:state.auth.employeeID,
+        isAdmin:state.auth.IsAdmin,
+        isHrm:state.auth.IsHrm,
+        IsSupervisor:state.auth.IsSupervisor,
     }
 }
 

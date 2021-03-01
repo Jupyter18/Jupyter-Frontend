@@ -20,13 +20,13 @@ const useStyles = makeStyles((theme) => ({
   paper: {
     padding: theme.spacing(2),
     textAlign: 'center',
-    width: '100%',
+    width: '60%',
     color: 'blue',
     display: 'flex',
     alignContent: 'center',
     justifyContent: 'center',
     justifyItems: 'center'
-},
+  },
 }));
 
 const Users = props => {
@@ -101,13 +101,15 @@ const Users = props => {
       return new Promise((resolve, reject) => {
         saveCusAttributes(data)
               .then((response) => {
+                  console.log(response)
                   if (!response.error) {
                       addAlert({
                           message: "Attribute Saved Successfully!",
                       });
-                      setCusAttributes(addItemToArray(cusattributes, response.data))
+                      setCusAttributes(addItemToArray(cusattributes, newUser))
                       return resolve();
                   }
+                  console.log(response)
                   addAlert({
                     message: "Failed!",
                   });

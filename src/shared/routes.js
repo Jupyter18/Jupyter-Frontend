@@ -4,3 +4,6 @@ export const USERREG = '/userregisteration';
 export const USERDETAIL = '/users/:id'
 export const CONTACT = '/users/contact'
 export const ATTRIBUTE = '/attribute'
+export const VIEWLEAVEAPPLICATION = '/viewleaveapplication'
+export const ADDLEAVEAPPLICATION = '/addleaveapplication'
+export const VIEWPROFILE = '/viewemployee'

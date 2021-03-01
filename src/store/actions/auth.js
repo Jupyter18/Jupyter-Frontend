@@ -10,7 +10,7 @@ const authStart = () => {
     };
 };
 
-const authSuccess = (token, type, stationId) => {
+const authSuccess = (token, employeeId, isAdmin, isHrm,isSupervisor) => {
     authRequestInterceptor = axios.interceptors.request.use(request => {
         request.headers.Authorization = `Bearer ${token}`;
         return request;
@@ -19,13 +19,14 @@ const authSuccess = (token, type, stationId) => {
     return {
         type: actionTypes.AUTH_SUCCESS,
         idToken: token,
-        usertype: type,
-        station: stationId,
+        employeeID: employeeId,
+        IsAdmin: isAdmin,
+        IsHrm: isHrm,
+        IsSupervisor: isSupervisor,      
     };
 };
 
 const authFail = (error) => {
-    console.log("hiii")
     return {
         type: actionTypes.AUTH_FAIL,
         error: error
@@ -34,9 +35,10 @@ const authFail = (error) => {
 
 export const authLogout = () => {
     localStorage.removeItem('token');
-    localStorage.removeItem('usertype');
-    localStorage.removeItem('station');
-    localStorage.removeItem('expirationDate');
+    localStorage.removeItem('employeeId');
+    localStorage.removeItem('isAdmin');
+    localStorage.removeItem('isHrm');
+    localStorage.removeItem('isSupervisor');
     axios.interceptors.request.eject(authRequestInterceptor);
     return {
         type: actionTypes.AUTH_LOGOUT
@@ -52,35 +54,31 @@ const checkAuthTimeout = (expirationTime) => (dispatch) => {
 export const auth = (email, password) => (dispatch) => {
     dispatch(authStart());
     let authData = {
-        email: email,
+        emp_id: email,
         password: password,
     }
     let url = loginRoute;
-
-    axios.post(url,
+    console.log(authData)
+    axios.post(`api/user/login`,
         authData)
         .then((response) => {
-            console.log(response)
-            console.log(response.data)
-            console.log(response.data.success)
-            if (response.data.success) {
                 console.log(response);
                 const expirationDate = new Date(new Date().getTime() + authRequestTimeoutSec * 1000);
-                console.log(response.data.type);
                 localStorage.setItem('token', response.data.token);
-                localStorage.setItem('usertype', response.data.type);
-                console.log(response.data.stationID);
-                localStorage.setItem('station', response.data.stationID);
+                localStorage.setItem('employeeId', response.data.emp_id);
+                localStorage.setItem('isAdmin', response.data.is_admin);
+                localStorage.setItem('isHrm', response.data.is_hrm);
+                localStorage.setItem('isSupervisor', response.data.is_supervisor);
                 localStorage.setItem('expirationDate', expirationDate);
-                dispatch(authSuccess(response.data.token, response.data.type,response.data.stationID));
+                console.log(localStorage.getItem('employeeId'))
+                console.log(localStorage.getItem('isAdmin'))
+                console.log(localStorage.getItem('isSupervisor'))
+                console.log(localStorage.getItem('isHrm'))
+                dispatch(authSuccess(response.data.token, response.data.emp_id,response.data.is_admin,response.data.is_hrm,response.data.is_supervisor));
                 dispatch(checkAuthTimeout(authRequestTimeoutSec));
-            } else {
-                dispatch(authFail('Invalid Username or Password'));
-            }
-            if (response.error){
-                dispatch(authFail('Invalid Username or Password'));
-            }
-        });
+        }).catch((error) =>{
+            console.log("Try Again")
+        })
 }
 
 export const authCheckState = () => (dispatch) => {
@@ -92,10 +90,11 @@ export const authCheckState = () => (dispatch) => {
         if (expirationDate <= new Date()) {
             dispatch(authLogout());
         } else {
-            const usertype = localStorage.getItem('usertype');
-            const stationId = localStorage.getItem('station');
-            console.log(stationId);
-            dispatch(authSuccess(token, usertype, stationId));
+            const employeeId = localStorage.getItem('employeeId');
+            const isAdmin = localStorage.getItem('isAdmin');
+            const isHrm = localStorage.getItem('isHrm');
+            const isSupervisor = localStorage.getItem('isSupervisor');
+            dispatch(authSuccess(token, employeeId, isAdmin, isHrm,isSupervisor));
             dispatch(checkAuthTimeout((expirationDate.getTime() - new Date().getTime()) / 1000));
         }
     }

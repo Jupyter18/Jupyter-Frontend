@@ -1,14 +1,19 @@
 import React, { useState, useEffect } from 'react';
+import { useHistory } from "react-router-dom";
+import { connect } from "react-redux";
 
 import { Link } from 'react-router-dom';
 import './Navbar.css';
 
-function Navbar() {
+import { authLogout, removeAlert } from "../../store/actions/index";
+
+function Navbar(props) {
   const [click, setClick] = useState(false);
   const [button, setButton] = useState(true);
-
+  const history = useHistory();
   // const handleClick = () => setClick(!click);
   // const closeMobileMenu = () => setClick(false);
+  const { onauthLogout} = props;
 
   const showButton = () => {
     if (window.innerWidth <= 960) {
@@ -16,6 +21,11 @@ function Navbar() {
     } else {
       setButton(true);
     }
+  };
+
+  const handleLogout = () => {
+    onauthLogout();
+    history.push("/");
   };
 
   useEffect(() => {
@@ -63,8 +73,9 @@ function Navbar() {
               <Link
                 to='/'
                 className='nav-links'
+                onClick={() => handleLogout()}
               >
-                Logout
+                Log Out
               </Link>
             </li>
           </ul>
@@ -75,4 +86,18 @@ function Navbar() {
   );
 }
 
-export default Navbar;
+const mapStateToProps = (state) => {
+  return {
+    isAuthenticated: state.auth.token != null,
+    alerts: state.alert.alerts,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onauthLogout: () => dispatch(authLogout()),
+    removeAlert: (alertId) => dispatch(removeAlert(alertId)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Navbar);
