@@ -11,7 +11,7 @@ import { checkValidity } from '../../shared/validate';
 import Grid from "@material-ui/core/Grid";
 import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
-
+import Button from "@material-ui/core/Button";
 // grid
 
 // card
@@ -190,6 +190,9 @@ const UserProfile = props =>  {
                                     />
                                 </MuiPickersUtilsProvider>
                             </Grid>
+                            <Button variant="contained" color="primary" className={classes.button} type="submit" fullWidth>
+                                Save
+                            </Button>
                         </Grid>
                         </form>
                     </CardContent>
