@@ -120,7 +120,7 @@ const UserProfile = props =>  {
     const [emailerr, setEmailerr] =useState();
     const [contactNumber, setContactNumber] =useState();
     const [contactNumbererr, setContactNumbererr] =useState();
-    const [supID, setsupID] =useState();
+    const [supID, setsupID] =useState(null);
     const [supIDerr, setsupIDerr] =useState();
     const [departments, setDepartment] = useState([]);
     const [emp_status, setEmpStatus] = useState([]);
