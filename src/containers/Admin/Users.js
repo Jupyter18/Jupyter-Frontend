@@ -9,7 +9,7 @@ import {removeItemFromArray, replaceItemInArray} from "../../shared/utility"
 // import { USERS } from "../../shared/routes";
 import Table from "../../components/UI/Table/MaterialTable/Table";
 // import Spinner from "../../components/UI/Spinner/Spinner";
-import * as actions from '../../store/actions/index';
+// import * as actions from '../../store/actions/index';
 import { Button } from "@material-ui/core";
 import * as routez from '../../shared/routes';
 import Navbar from "../../components/Navbar/Navbar"
@@ -45,7 +45,7 @@ const Users = props => {
   const [branchDM, setBranchDM] = useState();
   useEffect(() => {
     if (isLoading) {
-        getAllUsers()
+        getAllUsers(props.branch)
         .then((response) => {
           if (!response.error) {
             setUsers(response.data);
@@ -53,7 +53,7 @@ const Users = props => {
         })
         .finally(() => setIsLoading(false));
     }
-  }, [isLoading]);
+  }, [isLoading,props.branch]);
 
   useEffect(() => {
     if (isLoading) {
@@ -195,10 +195,23 @@ const Users = props => {
   }
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapStateToProps = (state) => {
   return {
-    addAlert: alert => dispatch(actions.addAlert(alert))
-  };
+      error: state.auth.error,
+      loading: state.auth.loading,
+      isAuthenticated: state.auth.token != null,
+      authRedirectPath: state.auth.authRedirectPath,
+      employeeID:state.auth.employeeID,
+      isAdmin:state.auth.IsAdmin,
+      isHrm:state.auth.IsHrm,
+      IsSupervisor:state.auth.IsSupervisor,
+      branch:state.auth.branch
+  }
 }
 
-export default connect(null, mapDispatchToProps)(Users);
+const mapDispatchToProps = (dispatch) => {
+  return {
+  }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Users);

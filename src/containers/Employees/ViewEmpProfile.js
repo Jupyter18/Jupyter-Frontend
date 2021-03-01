@@ -1,17 +1,12 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from 'react-redux';
 import {getEmployeeDetails} from "../../api/Users"
-import * as actions from '../../store/actions/index';
 import Navbar from "../../components/Navbar/NavbarEmp"
-import { getAllItemsReg} from "../../api/Other";
 
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
-import InputLabel from "@material-ui/core/InputLabel";
-import { checkValidity } from '../../shared/validate';
 
 import Grid from "@material-ui/core/Grid";
-import Button from "@material-ui/core/Button";
 import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
 
@@ -24,11 +19,8 @@ import CardContent from '@material-ui/core/CardContent';
 
 
 // form
-import FormControl from '@material-ui/core/FormControl';
 import DateFnsUtils from '@date-io/date-fns';
 import { KeyboardDatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
-import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
 import Switch from '@material-ui/core/Switch';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 
@@ -65,7 +57,7 @@ const useStyles = makeStyles((theme) => ({
 
 const UserProfile = props =>  {
     const classes = useStyles();
-    const { addAlert } = props;
+    // const { addAlert } = props;
     const [isLoading, setIsLoading] = useState(true);
     const [empDetails, setEmpDetails] =useState([{}]);
 

@@ -142,8 +142,8 @@ function SignIn(props) {
     if (props.isAuthenticated){
         if(props.isAdmin===1){
             authRedirect = <Redirect to={routez.USER} />
-        }else if(props.IsSupervisor===1){
-            authRedirect = <Redirect to={routez.VIEWLEAVEAPPLICATION} />
+        }else if(props.isHrm===1){
+            authRedirect = <Redirect to={routez.HRMUSER} />
         }else if(props.IsSupervisor===1){
             authRedirect = <Redirect to={routez.VIEWLEAVEAPPLICATION} />
         }else{

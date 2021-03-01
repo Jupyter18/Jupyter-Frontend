@@ -10,7 +10,7 @@ const authStart = () => {
     };
 };
 
-const authSuccess = (token, employeeId, isAdmin, isHrm,isSupervisor) => {
+const authSuccess = (token, employeeId, isAdmin, isHrm,isSupervisor,branchId) => {
     authRequestInterceptor = axios.interceptors.request.use(request => {
         request.headers.Authorization = `Bearer ${token}`;
         return request;
@@ -22,7 +22,8 @@ const authSuccess = (token, employeeId, isAdmin, isHrm,isSupervisor) => {
         employeeID: employeeId,
         IsAdmin: isAdmin,
         IsHrm: isHrm,
-        IsSupervisor: isSupervisor,      
+        IsSupervisor: isSupervisor, 
+        branch:branchId     
     };
 };
 
@@ -39,6 +40,7 @@ export const authLogout = () => {
     localStorage.removeItem('isAdmin');
     localStorage.removeItem('isHrm');
     localStorage.removeItem('isSupervisor');
+    localStorage.removeItem('branch');
     axios.interceptors.request.eject(authRequestInterceptor);
     return {
         type: actionTypes.AUTH_LOGOUT
@@ -69,11 +71,9 @@ export const auth = (email, password) => (dispatch) => {
                 localStorage.setItem('isAdmin', response.data.is_admin);
                 localStorage.setItem('isHrm', response.data.is_hrm);
                 localStorage.setItem('isSupervisor', response.data.is_supervisor);
+                localStorage.setItem('branch', response.data.branch_id);
                 localStorage.setItem('expirationDate', expirationDate);
-                console.log(localStorage.getItem('employeeId'))
-                console.log(localStorage.getItem('isAdmin'))
-                console.log(localStorage.getItem('isSupervisor'))
-                console.log(localStorage.getItem('isHrm'))
+
                 console.log("hiiiii")
                 dispatch(authSuccess(response.data.token, response.data.emp_id,response.data.is_admin,response.data.is_hrm,response.data.is_supervisor));
                 dispatch(checkAuthTimeout(authRequestTimeoutSec));
@@ -95,7 +95,8 @@ export const authCheckState = () => (dispatch) => {
             const isAdmin = localStorage.getItem('isAdmin');
             const isHrm = localStorage.getItem('isHrm');
             const isSupervisor = localStorage.getItem('isSupervisor');
-            dispatch(authSuccess(token, employeeId, isAdmin, isHrm,isSupervisor));
+            const branch = localStorage.getItem('branch');
+            dispatch(authSuccess(token, employeeId, isAdmin, isHrm,isSupervisor,branch));
             dispatch(checkAuthTimeout((expirationDate.getTime() - new Date().getTime()) / 1000));
         }
     }

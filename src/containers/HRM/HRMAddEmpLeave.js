@@ -1,15 +1,12 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from 'react-redux';
-import { useHistory } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 
 import { getLeaveSummery } from "../../api/LeavesAPI";
 import Table from "../../components/UI/Table/MaterialTable/Table";
 import Grid from "@material-ui/core/Grid";
 // import Spinner from "../../components/UI/Spinner/Spinner";
-import * as actions from '../../store/actions/index';
 import { Button } from "@material-ui/core";
-import * as routez from '../../shared/routes';
 import Navbar from "../../components/Navbar/NavbarHRM"
 import FHModal from "../../components/UI/FHModal/FHModal";
 import AddLeaveForm from "../Supervisor/AddLeaveForm";
@@ -17,7 +14,6 @@ import AddLeaveForm from "../Supervisor/AddLeaveForm";
 // import FHButton from "../../components/UI/FHButton/FHButton";
 // import Switch from '@material-ui/core/Switch';
 
-const tableTitle = "Leave Summery";
 
 const tableOptions = {
   pageSize: 10,
@@ -44,8 +40,7 @@ const useStyles = makeStyles((theme) => ({
 
 const LeaveSum = props => {
   const classes = useStyles();
-  const { addAlert } = props;
-  const history = useHistory();
+  // const { addAlert } = props;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [leaveSum, setLeaveSum] = useState(false);
@@ -58,7 +53,7 @@ const LeaveSum = props => {
             setLeaveSum(response.data);
           }
         })
-  }, []);
+  }, [props.employeeID]);
 
   const tableColumnsfixed = [
     { title: "Leave Type", field: "leave_type"},

@@ -8,6 +8,7 @@ const initialState = {
     IsAdmin: null,
     IsHrm: null,
     IsSupervisor: null,
+    branch:null,
     error: null,
     loading: false,
     authRedirectPath: authRedirectPath
@@ -32,6 +33,7 @@ const authSuccess = (state, action) => {
             IsAdmin: action.IsAdmin,
             IsHrm: action.IsHrm,
             IsSupervisor: action.IsSupervisor,
+            branch:action.branch,
             error: null,
             loading: false
         }
@@ -47,6 +49,7 @@ const authFail = (state, action) => {
             IsAdmin: null,
             IsHrm: null,
             IsSupervisor: null,
+            branch:null,
             error: action.error,
             loading: false
         }
@@ -62,6 +65,7 @@ const authLogout = (state) => {
             IsAdmin: null,
             IsHrm: null,
             IsSupervisor: null,
+            branch:null,
         }
     );
 };

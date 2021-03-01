@@ -25,11 +25,9 @@ export default class IncorporationForm extends React.Component {
     console.log(this.state.shareholders);
   };
 
-  
-
   handleSubmit = evt => {
     const { name, shareholders } = this.state;
-    alert(`Incorporated: ${name} with ${shareholders.length} shareholders`);
+    alert(`Incorporated: ${name} with ${shareholders.length} Contact Numbers`);
   };
 
   handleAddShareholder = () => {

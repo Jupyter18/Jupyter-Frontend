@@ -1,14 +1,12 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { connect } from 'react-redux';
-import { useHistory } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 
 import { getAllLeavesApplications,Accept_Leave,Reject_Leaave} from "../../api/LeavesAPI";
+import {removeItemFromArray} from "../../shared/utility"
 import Table from "../../components/UI/Table/MaterialTable/Table";
 // import Spinner from "../../components/UI/Spinner/Spinner";
-import * as actions from '../../store/actions/index';
 import { Button } from "@material-ui/core";
-import * as routez from '../../shared/routes';
 import Navbar from "../../components/Navbar/NavbarSup"
 
 const tableTitle = "User Information";
@@ -28,8 +26,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Leaves = props => {
   const classes = useStyles();
-  const { addAlert } = props;
-  const history = useHistory();
+  // const { addAlert } = props;
   const [isLoading, setIsLoading] = useState(true);
   const [leaves, setLeaves] = useState([]);
 
@@ -45,26 +42,32 @@ const Leaves = props => {
         .finally(() => setIsLoading(false));
   }, [props.employeeID]);
 
-  const AcceptLeave = useCallback(() => {
-    Accept_Leave(1)
+  const AcceptLeave = useCallback((rowData) => {
+    let data={
+      "emp_id":rowData.emp_id,
+      "leave_date":"2021-03-21"
+    }
+    Accept_Leave(data)
         .then((response) => {
             console.log(response.data);
-            if (!response.error) {
-                addAlert({
-                    message: "Leave Accepted Successful!",
-                });
+            setLeaves(removeItemFromArray(leaves, 'emp_id',rowData.emp_id ))
+            if (!response.error) {              
+                // addAlert({
+                //     message: "Leave Accepted Successful!",
+                // });
             }
         });
     }, [leaves]);
 
-    const RejectLeave = useCallback(() => {
+    const RejectLeave = useCallback((rowData) => {
         Reject_Leaave(0)
             .then((response) => {
                 console.log(response.data);
+                setLeaves(removeItemFromArray(leaves, 'emp_id',rowData.emp_id ))
                 if (!response.error) {
-                    addAlert({
-                        message: "Leave Rejected Successful!",
-                    });
+                    // addAlert({
+                    //     message: "Leave Rejected Successful!",
+                    // });
                 }
             });
     }, [leaves]);
@@ -72,12 +75,12 @@ const Leaves = props => {
 
 
   const renderAcceptBtn = useCallback(
-    (rowData) => <Button color="primary" onClick={() => AcceptLeave()}>Accept</Button>,
+    (rowData) => <Button color="primary" onClick={() => AcceptLeave(rowData)}>Accept</Button>,
     []
   );
 
   const renderRejectBtn = useCallback(
-    (rowData) => <Button color="secondary" onClick={() => RejectLeave()}>Reject</Button>,
+    (rowData) => <Button color="secondary" onClick={() => RejectLeave(rowData)}>Reject</Button>,
     []
   );
 
@@ -87,10 +90,10 @@ const Leaves = props => {
     { title: "First Name", field: "first_name"},
     { title: "Last Name", field: "last_name"},
     { title: "Employee Id", field: "emp_id"},
-    { title: "Leave Date", field: "leave_date"},
+    { title: "Leave Date", field: "leave_date", type:"date"},
     { title: "Leave Type Id", field: "leave_type_id"},
-    { title: "Leave Ammount", field: "leave_ammount"},
-    { title: "Leave Count", field: "leavecount"},
+    { title: "Leave Ammount", field: "leave_amount"},
+    { title: "Leave Count", field: "leave_count"},
     { title: "Accept", render: renderAcceptBtn },
     { title: "Reject", render: renderRejectBtn },
   ];
