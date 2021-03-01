@@ -75,7 +75,7 @@ export const auth = (email, password) => (dispatch) => {
                 localStorage.setItem('expirationDate', expirationDate);
 
                 console.log("hiiiii")
-                dispatch(authSuccess(response.data.token, response.data.emp_id,response.data.is_admin,response.data.is_hrm,response.data.is_supervisor));
+                dispatch(authSuccess(response.data.token, response.data.emp_id,response.data.is_admin,response.data.is_hrm,response.data.is_supervisor,response.data.branch_id));
                 dispatch(checkAuthTimeout(authRequestTimeoutSec));
         }).catch((error) =>{
             console.log("Try Again")
