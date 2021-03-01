@@ -18,3 +18,5 @@ export const getAllUsersHRM = (id) => getRequest(`api/hrm/empList/${id}`);
 export const deleteUsersHRM = (id) => deleteRequest(`/api/hrm/user/${id}`);
 
 export const updateUsersHRM = (id,data) => putRequest(`/api/hrm/user/${id}`,data);
+
+export const saveuserHRM = (data) => postRequest(`api/hrm/user`,data);

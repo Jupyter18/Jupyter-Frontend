@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useEffect } from "react";
 import { connect } from 'react-redux';
 
-import {saveuser} from "../../api/Users"
+import {saveuserHRM} from "../../api/Users"
 import * as actions from '../../store/actions/index';
 import Navbar from "../../components/Navbar/NavbarHRM"
 import { getAllItemsReg} from "../../api/Other";
@@ -250,7 +250,7 @@ const UserProfile = props =>  {
             "contact_no": contactNumber
         }
         console.log(JSON.stringify(obj))
-        saveuser(obj)
+        saveuserHRM(obj)
                 .then((response) => {
                     if (!response.error) {
                         addAlert({

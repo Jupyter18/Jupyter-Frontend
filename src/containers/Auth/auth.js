@@ -136,6 +136,7 @@ function SignIn(props) {
     console.log(props.isAdmin)
     console.log(props.isHrm)
     console.log(props.IsSupervisor)
+    console.log(props.branch)
     console.log("123")
     // console.log(props.employeeID)
     let authRedirect = null;
