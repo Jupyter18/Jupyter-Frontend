@@ -125,7 +125,7 @@ const UserProfile = props =>  {
                                 </MuiPickersUtilsProvider>
                             </Grid>
                             <Grid item xs={12} sm={6}>
-                            ```<MuiPickersUtilsProvider utils={DateFnsUtils}>
+                            <MuiPickersUtilsProvider utils={DateFnsUtils}>
                                     <TextField
                                         type="name"
                                         id="martial status"

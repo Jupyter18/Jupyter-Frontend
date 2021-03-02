@@ -84,7 +84,7 @@ const Leaves = props => {
     []
   );
 
-
+    console.log(props.isAuthenticated)
 
   const tableColumns = [
     { title: "First Name", field: "first_name"},

@@ -148,7 +148,7 @@ function SignIn(props) {
         }else if(props.IsSupervisor===1){
             authRedirect = <Redirect to={routez.VIEWLEAVEAPPLICATION} />
         }else{
-            authRedirect = <Redirect to={routez.EMPVIEWPROFILE} />
+            authRedirect = <Redirect to={routez.EMPADDLEAVEAPPLICATION} />
         }
     }
 
