@@ -236,7 +236,7 @@ const UserProfile = props =>  {
     const [state, setState] = useState(false);
     
       const handleChangesupervisor = (event) => {
-        setState(event.target.checked);
+        setState(event.target.checked?1:0);
       };
 
     const onSubmitHandler = useCallback((event) => {

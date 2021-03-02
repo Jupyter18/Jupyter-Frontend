@@ -52,6 +52,7 @@ const Users = props => {
         getAllUsers(props.branch)
         .then((response) => {
           if (!response.error) {
+            console.log(response)
             setUsers(response.data);
           }
         })
@@ -158,17 +159,17 @@ const Users = props => {
     [history]
   );
 
-//   const renderStatusSwitch = useCallback(
-//     (rowData) => (
-//       <Switch
-//         checked={rowData.enabled}
-//         onChange={() => renderStatus(rowData.id,rowData.enabled)}
-//         name="checkedB"
-//         color="primary"
-//       />
-//     ),
-//     [renderStatus]
-//   );
+  // const renderStatusSwitch = useCallback(
+  //   (rowData) => (
+  //     <Switch
+  //       checked={rowData.enabled}
+  //       onChange={() => renderStatus(rowData.id,rowData.enabled)}
+  //       name="checkedB"
+  //       color="primary"
+  //     />
+  //   ),
+  //   [renderStatus]
+  // );
 
   const tableColumns = [
     { title: "Employee ID", field: "emp_id", editable:"never" },
@@ -184,7 +185,7 @@ const Users = props => {
     { title: "Department", field: "department_id", lookup: departments},
     { title: "Branch", field: "branch_id", lookup: branchDM},
     { title: "Supervisor ID", field: "supervisor_id" },
-    { title: "Supervisor ID", field: "is_supervisor",lookup: { 0:"False", 1:"True"} },
+    { title: "Is Supervisor", field: "is_supervisor",lookup: { 0:"False", 1:"True"} },
     { title: "Profile", render: renderProfileBtn },
     // { title: "Reset user device", render: renderResetBtn },
     // { title: "User status", render: renderStatusSwitch },
