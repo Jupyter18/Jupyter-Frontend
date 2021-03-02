@@ -7,11 +7,12 @@ import { useParams } from "react-router-dom";
 // import { USERS } from "../../shared/routes";
 import { Paper } from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles';
-import { getUserHRM } from "../../api/Users";
+import { getUser } from "../../api/Users";
 // import Button from '@material-ui/core/Button';
 // import { updateObject, formIsValid } from '../../shared/utility';
 import * as actions from '../../store/actions/index';
-import HRMUsers from "../HRM/HRMusers"
+import Users from "../HRM/HRMusers"
+import Contact from "../Admin/Contact"
 // import Navbar from "../../components/Navbar/Navbar"
 
 // const tableOptions = {
@@ -43,13 +44,14 @@ const UsersDetail = props => {
     // const { addAlert } = props;
     const classes = useStyles();
     const { id } = useParams();
-    const [user, setUser] = useState();
+    const [user, setUser] = useState([]);
 
     useEffect(() => {
-        getUserHRM(id)
+        getUser(id)
             .then(response => {
                 if (!response.error) {
-                    setUser(response.data);
+                    console.log(response)
+                    setUser(response.data[0]);
                 }
             })
     }, [setUser, id]);
@@ -60,12 +62,13 @@ const UsersDetail = props => {
         return (
           <div>
             {/* <Navbar/> */}
-            <HRMUsers />
+            <Users />
             <Paper className={classes.paper}>
-              <h4>First Name : {user && user.first_name}</h4>
-              <h4>Last Name : {user && user.last}</h4>
-              <h4>Email : {user && user.email}</h4>
-              <h4>Gender : {user && user.gender}</h4>
+                <div>
+                    {Object.keys(user).map((users, index) => {
+                        return(<h4>{users} : {user && user[users]}</h4>)
+                    })}
+                </div>
             </Paper>
           </div>
         );

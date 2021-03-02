@@ -21,6 +21,7 @@ import HRMUserReg from '../src/containers/HRM/HRMuserReg';
 import HRMUserDetail from '../src/containers/HRM/HRMUserDetails';
 import HRMViewProfile from '../src/containers/HRM/HRMViewProfile';
 import HRMAddLeaveApplication from './containers/HRM/HRMAddEmpLeave';
+import HRMAtributes from './containers/HRM/HRMAttributes';
 import Reports from './containers/HRM/Reports';
 
 import * as routez from './shared/routes';
@@ -54,6 +55,7 @@ function App(props) {
         <Route exact path={routez.HRMUSERDETAIL} component={HRMUserDetail}/>
         <Route exact path={routez.HRMEMPVIEWPROFILE} component={HRMViewProfile}/>
         <Route exact path={routez.HRMADDLEAVEAPPLICATION} component={HRMAddLeaveApplication}/>
+        <Route exact path={routez.HRMATTRIBUTE} component={HRMAtributes}/>
         <Route exact path={routez.REPORTS} component={Reports}/>
 
         <Route exact path={routez.VIEWLEAVEAPPLICATION} component={ViewLeaveApplication}/>

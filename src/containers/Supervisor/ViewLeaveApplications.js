@@ -53,7 +53,7 @@ const Leaves = props => {
   const AcceptLeave = useCallback((rowData) => {
     let data={
       "emp_id":rowData.emp_id,
-      "leave_date":rowData.leave_date
+      "leave_date":new Date(rowData.leave_date).toISOString().slice(0, 10)
     }
     Accept_Leave(data)
         .then((response) => {
@@ -70,7 +70,7 @@ const Leaves = props => {
     const RejectLeave = useCallback((rowData) => {
         let data={
           "emp_id":rowData.emp_id,
-          "leave_date":rowData.leave_date
+          "leave_date":new Date(rowData.leave_date).toISOString().slice(0, 10)
         }
         Reject_Leaave(data)
             .then((response) => {
