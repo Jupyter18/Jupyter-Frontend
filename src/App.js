@@ -15,6 +15,7 @@ import ViewProfile from '../src/containers/Supervisor/ViewProfile';
 
 import EmpAddLeaveApplication from './containers/Employees/AddEmpLeave';
 import EmpViewProfile from '../src/containers/Employees/ViewEmpProfile';
+import LeaveStatus from '../src/containers/Employees/LeaveStatus'
 
 import HRMUsers from '../src/containers/HRM/HRMusers';
 import HRMUserReg from '../src/containers/HRM/HRMuserReg';
@@ -62,6 +63,7 @@ function App(props) {
 
         <Route exact path={routez.EMPADDLEAVEAPPLICATION} component={EmpAddLeaveApplication}/>
         <Route exact path={routez.EMPVIEWPROFILE} component={EmpViewProfile}/>
+        <Route exact path={routez.EMPLEAVESTATUS} component={LeaveStatus}/>
 
         <Redirect path="/" to={routez.SIGNIN} />
       </Switch>
