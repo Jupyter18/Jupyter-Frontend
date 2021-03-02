@@ -61,7 +61,6 @@ const UserProfile = props =>  {
     const [isLoading, setIsLoading] = useState(true);
     const [empDetails, setEmpDetails] =useState([{}]);
 
-
     useEffect(() => {
         if (isLoading) {
           getEmployeeDetails(props.employeeID)
@@ -250,7 +249,7 @@ const UserProfile = props =>  {
                             <FormControlLabel
                                 control={
                                 <Switch
-                                    checked={empDetails[0].is_supervisor}
+                                    checked={1}
                                     name="checkedB"
                                     color="primary"
                                 />

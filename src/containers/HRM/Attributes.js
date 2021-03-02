@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
   paper: {
     padding: theme.spacing(2),
     textAlign: 'center',
-    width: '60%',
+    width: '100%',
     color: 'blue',
     display: 'flex',
     flexDirection: "row"
@@ -217,8 +217,8 @@ const Users = props => {
     return (
     <div >
       <Navbar />
+      <Alert handleAlertClose={handleAlertClose} alerts={props.alerts} />
       <div className={classes.paper}>
-        <Alert handleAlertClose={handleAlertClose} alerts={props.alerts} />
         <Table
           data={cusattributes}
           title={CusUserTable}
@@ -230,7 +230,7 @@ const Users = props => {
             onRowDelete: oldData => deleteUser(oldData),
           }}
         />
-        {/* <form noValidate autoComplete="off" onSubmit={onSubmitHandler}>
+        <form noValidate autoComplete="off" onSubmit={onSubmitHandler}>
           <Card className={classes.root}>
               <CardHeader
                   title="Fill Custom attributes to Employee"
@@ -247,6 +247,7 @@ const Users = props => {
                       onChange={(event)=>inputChangeHandler(event,"employeeId")}
                       error={employeeIdErr}
                   />
+                  <br/>
                   <InputLabel id="demo-simple-select-label" >Attribute Name</InputLabel>
                   <Select
                       labelId="Select Title"
@@ -259,6 +260,8 @@ const Users = props => {
                       <MenuItem value={"1"}>1</MenuItem>
                       <MenuItem value={"2"}>2</MenuItem>
                   </Select>
+                  <br />
+                  <InputLabel id="demo-simple-select-label" >Attribute Value</InputLabel>
                   <TextField
                       id="AttributeValue"
                       label="Attribute Value"
@@ -274,7 +277,7 @@ const Users = props => {
                   </Button>
               </CardContent>
           </Card>
-        </form> */}
+        </form>
       </div>
     </div>
     )
