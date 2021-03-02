@@ -12,7 +12,6 @@ export const VIEWPROFILE = '/viewemployee'
 
 export const EMPADDLEAVEAPPLICATION = '/empaddleaveapplication'
 export const EMPVIEWPROFILE = '/empviewemployee'
-export const EMPLEAVESTATUS= '/leavestatus'
 
 export const HRMUSER = '/hrmusers';
 export const HRMUSERREG = '/hrmuserregisteration';

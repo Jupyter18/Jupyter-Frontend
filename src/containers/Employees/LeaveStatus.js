@@ -58,6 +58,11 @@ const LeaveStatus = props =>  {
             getLeaveStatus()
             .then((response) => {
               if (!response.error) {  
+                response.data.map(ob => {
+                  if(ob.is_approved === 1) ob.is_approved = "Accepted";
+                  else if(ob.is_approved === 0) ob.is_approved = "Rejected";
+                  else ob.is_approved = "Pendding...";
+                })
                 setLeaveDetail(response.data)
                 console.log(response.data)
               }
