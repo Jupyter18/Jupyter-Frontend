@@ -124,7 +124,7 @@ const UserProfile = props =>  {
         event.preventDefault()
         let obj={
             "emp_id": props.employeeID,
-            "leave_date": "2021-04-29",
+            "leave_date": selectedDate,
             "leave_type_id": leavetype,
         }
         console.log(JSON.stringify(obj))
