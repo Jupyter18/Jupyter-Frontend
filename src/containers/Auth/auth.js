@@ -10,6 +10,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import FormLabel from "@material-ui/core/FormLabel";
 
 import { checkValidity } from '../../shared/validate';
 import { updateObject } from '../../shared/utility';
@@ -46,6 +47,14 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     width: '100%',
     height: '100%',
+    backgroundImage: '../../../public/loginback.svg',
+    backgroundRepeat: 'no-repeat',
+    backgroundColor:
+        theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    width:"100%",
+    height:"100%"
   },
   avatar: {
     margin: theme.spacing(1),
@@ -106,6 +115,21 @@ function SignIn(props) {
         setAuthObj(updateObject(authObj, { [inputId]: event.target.value }))
     }, [authObj, inputIsValid]);
 
+    const parseErrorMessage = (errorMessage) => {
+        switch (errorMessage) {
+            case "User doesn't exist":
+                return "Hmm... We couldn't find an account for this email";
+            case "Invalid username/password supplied":
+                return "Hmm... Seems like the username/password is wrong.";
+            case "Invalid Password or Username":
+                return "Oh snap! There's an existing account for this e-mail";
+            case "Server is under maintainance. Try again shortly.":
+                return "Server is under maintainance. Try again shortly.";
+            default:
+                return null;
+        }
+    };
+
     let inputFields = buildTextFields(inputDefinitions, inputProperties, inputChangeHandler, inputIsValid);
 
     const onSubmitHandler = useCallback((event) => {
@@ -124,21 +148,13 @@ function SignIn(props) {
         }
     }, [authObj, checkInputValidity, inputIsValid, props]);
 
-    const authError = props.error;
-    useEffect(() => {
-        if (authError) {
-            alert(authError)
-        }
-    }, [authError,history]);
+    // const authError = props.error;
+    // useEffect(() => {
+    //     if (authError) {
+    //         alert(authError)
+    //     }
+    // }, [authError,history]);
 
-    // console.log(props.isAuthenticated)
-    console.log("123")
-    console.log(props.isAdmin)
-    console.log(props.isHrm)
-    console.log(props.IsSupervisor)
-    console.log(props.branch)
-    console.log("123")
-    // console.log(props.employeeID)
     let authRedirect = null;
     if (props.isAuthenticated){
         if(props.isAdmin===1){
@@ -152,32 +168,44 @@ function SignIn(props) {
         }
     }
 
+    let errorMessage = null;
+	if (props.error) {
+		errorMessage = (
+			<div className={classes.errorLabel}>
+				<FormLabel error={true}>{parseErrorMessage(props.error)}</FormLabel>
+			</div>
+		);
+	}
+
   return (
     <React.Fragment>
-        <div className={classes.paper}>
-            <Container component="main" maxWidth="xs">
-                <CssBaseline />
-                <div >
-                    <form noValidate autoComplete="off" className={classes.form} onSubmit={onSubmitHandler}>
-                        <Avatar className={classes.avatar}>
-                            <LockOutlinedIcon />
-                        </Avatar>
-                        <Typography variant="h5">
-                            Sign In
-                        </Typography>
-                        {inputFields}
-                        <Button
-                            type="submit"
-                            fullWidth
-                            variant="contained"
-                            color="primary"
-                            className={classes.submit}
-                        >
-                            Sign In
-                        </Button>
-                    </form>
-                </div>
-            </Container>
+        <div >
+            <div className={classes.paper}>
+                <Container component="main" maxWidth="xs">
+                    <CssBaseline />
+                    <div >
+                        <form noValidate autoComplete="off" className={classes.form} onSubmit={onSubmitHandler}>
+                            <Avatar className={classes.avatar}>
+                                <LockOutlinedIcon />
+                            </Avatar>
+                            <Typography variant="h5">
+                                Sign In
+                            </Typography>
+                            {errorMessage}
+                            {inputFields}
+                            <Button
+                                type="submit"
+                                fullWidth
+                                variant="contained"
+                                color="primary"
+                                className={classes.submit}
+                            >
+                                Sign In
+                            </Button>
+                        </form>
+                    </div>
+                </Container>
+            </div>
         </div>
         {authRedirect}
     </React.Fragment>

@@ -60,11 +60,9 @@ export const auth = (email, password) => (dispatch) => {
         password: password,
     }
     let url = loginRoute;
-    console.log(authData)
     axios.post(`api/user/login`,
         authData)
         .then((response) => {
-                console.log(response);
                 const expirationDate = new Date(new Date().getTime() + authRequestTimeoutSec * 1000);
                 localStorage.setItem('token', response.data.token);
                 localStorage.setItem('employeeId', response.data.emp_id);
@@ -73,12 +71,12 @@ export const auth = (email, password) => (dispatch) => {
                 localStorage.setItem('isSupervisor', response.data.is_supervisor);
                 localStorage.setItem('branch', response.data.branch_id);
                 localStorage.setItem('expirationDate', expirationDate);
-
-                console.log("hiiiii")
                 dispatch(authSuccess(response.data.token, response.data.emp_id,response.data.is_admin,response.data.is_hrm,response.data.is_supervisor,response.data.branch_id));
                 dispatch(checkAuthTimeout(authRequestTimeoutSec));
         }).catch((error) =>{
-            console.log("Try Again")
+            dispatch(
+                authFail("Invalid Password or Username")
+            );
         })
 }
 

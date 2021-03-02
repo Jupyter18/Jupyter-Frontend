@@ -7,7 +7,9 @@ import { removeItemFromArray, addItemToArray, } from "../../shared/utility";
 import { makeStyles } from "@material-ui/core/styles";
 import Table from "../../components/UI/Table/MaterialTable/Table";
 import * as actions from '../../store/actions/index';
-import Navbar from "../../components/Navbar/Navbar"
+import Navbar from "../../components/Navbar/Navbar";
+import Alert from '../../components/UI/FHAlert/FHAlert';
+import { removeAlert } from "../../store/actions/index";
 
 const CusUserTable = "Custom Attributes Table";
 
@@ -46,6 +48,10 @@ const Users = props => {
       })
 }, []);
 
+  const removeAlert = props.removeAlert;
+  const handleAlertClose = useCallback((alertId) => {
+      removeAlert(alertId);
+  }, [removeAlert]);
 
   const deleteUser = useCallback(
     (oldUser) => {
@@ -132,6 +138,7 @@ const Users = props => {
     <div >
       <Navbar />
       <div className={classes.paper}>
+        <Alert handleAlertClose={handleAlertClose} alerts={props.alerts} />
         <Table
           data={cusattributes}
           title={CusUserTable}
@@ -149,12 +156,21 @@ const Users = props => {
   }
 };
 
+const mapStateToProps = (state) => {
+	return {
+    isAuthenticated: state.auth.token != null,
+    alerts: state.alert.alerts
+	};
+};
+
+
 const mapDispatchToProps = (dispatch) => {
   return {
-    addAlert: alert => dispatch(actions.addAlert(alert))
+    addAlert: alert => dispatch(actions.addAlert(alert)),
+    removeAlert: (alertId) => dispatch(removeAlert(alertId))
   };
 }
 
-export default connect(null, mapDispatchToProps)(Users);
+export default connect(mapStateToProps, mapDispatchToProps)(Users);
 
 // export default (Users);

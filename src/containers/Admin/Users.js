@@ -12,10 +12,14 @@ import Table from "../../components/UI/Table/MaterialTable/Table";
 // import * as actions from '../../store/actions/index';
 import { Button } from "@material-ui/core";
 import * as routez from '../../shared/routes';
-import Navbar from "../../components/Navbar/Navbar"
+import Navbar from "../../components/Navbar/Navbar";
+import * as actions from '../../store/actions/index';
 // import { SNACKBAR } from "../../components/UI/FHSnackBar/FHSnackBar";
 // import FHButton from "../../components/UI/FHButton/FHButton";
 // import Switch from '@material-ui/core/Switch';
+
+import Alert from '../../components/UI/FHAlert/FHAlert';
+import { removeAlert } from "../../store/actions/index";
 
 const tableTitle = "User Information";
 
@@ -83,12 +87,20 @@ const Users = props => {
                         setUsers(removeItemFromArray(users, 'emp_id', oldLesson.emp_id))
                         return resolve();
                     }
+                    addAlert({
+                      message: "Failed!",
+                    });
                     return reject();
                 })
         });
     },
     [addAlert, users]
   );
+
+  const removeAlert = props.removeAlert;
+    const handleAlertClose = useCallback((alertId) => {
+        removeAlert(alertId);
+    }, [removeAlert]);
 
   const updateUser = useCallback(
     (oldLesson,newLesson) => {
@@ -105,7 +117,11 @@ const Users = props => {
                         setUsers(replaceItemInArray(users, 'emp_id', newLesson, oldLesson.emp_id))
                         return resolve();
                     }
+                    addAlert({
+                      message: "Failed!",
+                    });
                     return reject();
+
                 })
         });
     },
@@ -180,6 +196,7 @@ const Users = props => {
     return (
       <div className={classes.root}>
         <Navbar/>
+        <Alert handleAlertClose={handleAlertClose} alerts={props.alerts} />
         <Table
           data={users}
           title={tableTitle}
@@ -205,12 +222,15 @@ const mapStateToProps = (state) => {
       isAdmin:state.auth.IsAdmin,
       isHrm:state.auth.IsHrm,
       IsSupervisor:state.auth.IsSupervisor,
-      branch:state.auth.branch
+      branch:state.auth.branch,
+      alerts: state.alert.alerts
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    addAlert: alert => dispatch(actions.addAlert(alert)),
+    removeAlert: (alertId) => dispatch(removeAlert(alertId))
   }
 };
 

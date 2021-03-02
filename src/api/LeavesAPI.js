@@ -2,9 +2,9 @@ import { getRequest, putRequest, postRequest} from "./utils";
 
 export const getAllLeavesApplications = (Id) => getRequest(`/api/supervisor/viewLeaveDetails/${Id}`);
 
-export const Accept_Leave = (leave_date) => putRequest(`/api/supervisor/approveLeave`,leave_date);
+export const Accept_Leave = (data) => putRequest(`/api/supervisor/approveLeave`,data);
 
-export const Reject_Leaave = () => putRequest(`/api/employee/companydata`);
+export const Reject_Leaave = (data) => putRequest(`/api/supervisor/rejectLeave`,data);
 
 export const getLeaveSummery = (id) => getRequest(`api/employee/leavesummary/${id}`);
 

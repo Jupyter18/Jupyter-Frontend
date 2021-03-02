@@ -45,7 +45,7 @@ const Leaves = props => {
   const AcceptLeave = useCallback((rowData) => {
     let data={
       "emp_id":rowData.emp_id,
-      "leave_date":"2021-03-21"
+      "leave_date":"2021-03-12"
     }
     Accept_Leave(data)
         .then((response) => {
@@ -60,7 +60,11 @@ const Leaves = props => {
     }, [leaves]);
 
     const RejectLeave = useCallback((rowData) => {
-        Reject_Leaave(0)
+        let data={
+          "emp_id":rowData.emp_id,
+          "leave_date":"2021-03-21"
+        }
+        Reject_Leaave(data)
             .then((response) => {
                 console.log(response.data);
                 setLeaves(removeItemFromArray(leaves, 'emp_id',rowData.emp_id ))
