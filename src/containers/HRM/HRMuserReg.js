@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import {saveuserHRM} from "../../api/Users"
 import * as actions from '../../store/actions/index';
-import Navbar from "../../components/Navbar/NavbarHRM"
+import Navbar from "../../components/Navbar/Navbar"
 import { getAllItemsReg} from "../../api/Other";
 
 // @material-ui/core components
@@ -32,6 +32,9 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import Switch from '@material-ui/core/Switch';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+
+import Alert from '../../components/UI/FHAlert/FHAlert';
+import { removeAlert } from "../../store/actions/index";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -172,6 +175,11 @@ const UserProfile = props =>  {
         }
     }, []);
 
+    const removeAlert = props.removeAlert;
+    const handleAlertClose = useCallback((alertId) => {
+        removeAlert(alertId);
+    }, [removeAlert]);
+
     // birthdate
     const [selectedDate, setSelectedDate] = useState(new Date('2014-08-18T21:11:54'));
     const handleDateChange = (date) => {
@@ -257,7 +265,9 @@ const UserProfile = props =>  {
                             message: "User Saved Successfully!",
                         });
                     }else{
-                        console.log(response)
+                        addAlert({
+                            message: "Failed!",
+                        });
                     }
                     
                 })
@@ -268,6 +278,7 @@ const UserProfile = props =>  {
     return (
         <div className={classes.root}>
             <Navbar/>
+            <Alert handleAlertClose={handleAlertClose} alerts={props.alerts} />
             <Paper className={classes.paper}>    
                 <Card className={classes.card}>
                     <CardHeader
@@ -460,10 +471,18 @@ const UserProfile = props =>  {
     );
 }
 
+const mapStateToProps = (state) => {
+	return {
+    isAuthenticated: state.auth.token != null,
+    alerts: state.alert.alerts
+	};
+};
+
 const mapDispatchToProps = (dispatch) => {
     return {
-      addAlert: alert => dispatch(actions.addAlert(alert))
+      addAlert: alert => dispatch(actions.addAlert(alert)),
+      removeAlert: (alertId) => dispatch(removeAlert(alertId))
     };
 }
   
-export default connect(null, mapDispatchToProps)(UserProfile);
+export default connect(mapStateToProps, mapDispatchToProps)(UserProfile);

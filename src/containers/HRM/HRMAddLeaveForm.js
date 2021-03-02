@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from "react";
 import { connect } from 'react-redux';
 
-import {saveLeaveHRM} from "../../api/LeavesAPI"
+import {saveLeave} from "../../api/LeavesAPI"
 import * as actions from '../../store/actions/index';
 
 // @material-ui/core components
@@ -23,6 +23,9 @@ import CardContent from '@material-ui/core/CardContent';
 // form
 import DateFnsUtils from '@date-io/date-fns';
 import { KeyboardDatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
+
+import Alert from '../../components/UI/FHAlert/FHAlert';
+import { removeAlert } from "../../store/actions/index";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -83,6 +86,11 @@ const UserProfile = props =>  {
     const [employee_ID, setEmployeeId] = useState([]);
     const [leave_Type, setLeaceType] = useState([]);
 
+    const removeAlert = props.removeAlert;
+    const handleAlertClose = useCallback((alertId) => {
+        removeAlert(alertId);
+    }, [removeAlert]);
+
 
     const inputChangeHandler = useCallback((event, inputId) => {
         let validationConst = inputDefinitions[inputId].validations;
@@ -111,14 +119,16 @@ const UserProfile = props =>  {
             "leave_type_id": leave_Type,
         }
         console.log(JSON.stringify(obj))
-        saveLeaveHRM(obj)
+        saveLeave(obj)
                 .then((response) => {
                     if (!response.error) {
                         addAlert({
-                            message: "User Saved Successfully!",
+                            message: "Leave Saved Successfully!",
                         });
                     }else{
-                        console.log(response)
+                        addAlert({
+                            message: "Failed!",
+                        });
                     }
                     
                 })
@@ -128,7 +138,8 @@ const UserProfile = props =>  {
 
     return (
         <div className={classes.root}>
-            <Paper className={classes.paper}>    
+            <Alert handleAlertClose={handleAlertClose} alerts={props.alerts} />  
+            <Paper className={classes.paper}>  
                 <Card className={classes.card}>
                     <CardHeader
                         // avatar={
@@ -202,10 +213,19 @@ const UserProfile = props =>  {
     );
 }
 
+const mapStateToProps = (state) => {
+	return {
+    isAuthenticated: state.auth.token != null,
+    alerts: state.alert.alerts
+	};
+};
+
+
 const mapDispatchToProps = (dispatch) => {
-    return {
-      addAlert: alert => dispatch(actions.addAlert(alert))
-    };
+  return {
+    addAlert: alert => dispatch(actions.addAlert(alert)),
+    removeAlert: (alertId) => dispatch(removeAlert(alertId))
+  };
 }
   
-export default connect(null, mapDispatchToProps)(UserProfile);
+export default connect(mapStateToProps, mapDispatchToProps)(UserProfile);
