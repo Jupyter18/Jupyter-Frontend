@@ -184,6 +184,7 @@ const UserProfile = props =>  {
     const [selectedDate, setSelectedDate] = useState(new Date('2014-08-18T21:11:54'));
     const handleDateChange = (date) => {
         setSelectedDate(date);
+        console.log(selectedDate)
     };
 
     // martial status
