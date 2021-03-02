@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import {saveuserHRM} from "../../api/Users"
 import * as actions from '../../store/actions/index';
-import Navbar from "../../components/Navbar/Navbar"
+import Navbar from "../../components/Navbar/NavbarHRM"
 import { getAllItemsReg} from "../../api/Other";
 
 // @material-ui/core components
@@ -180,10 +180,10 @@ const UserProfile = props =>  {
         removeAlert(alertId);
     }, [removeAlert]);
 
-    // birthdate
-    const [selectedDate, setSelectedDate] = useState(new Date('2014-08-18T21:11:54'));
-    const handleDateChange = (date) => {
-        setSelectedDate(date);
+    const [selectedDate, setSelectedDate] = useState();
+    const handleDateChange = (event) => {
+        setSelectedDate(event.target.value);
+        console.log(event.target.value)
     };
 
     // martial status
@@ -244,7 +244,7 @@ const UserProfile = props =>  {
         let obj={
             "first_name": firstname,
             "last_name": lastname,
-            "birth_date": "1997-07-28",
+            "birth_date": selectedDate,
             "marital_status": martialstate,
             "email": email,
             "gender": gender,
@@ -326,20 +326,17 @@ const UserProfile = props =>  {
                                 />
                             </Grid>
                             <Grid item xs={12} sm={6}>
-                                <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                                    <KeyboardDatePicker
-                                        margin="normal"
-                                        id="birthdate"
-                                        label="BirthDate"
-                                        format="MM/dd/yyyy"
-                                        value={selectedDate}
-                                        fullWidth
-                                        onChange={handleDateChange}
-                                        KeyboardButtonProps={{
-                                            'aria-label': 'change date',
-                                        }}
-                                    />
-                                </MuiPickersUtilsProvider>
+                                <TextField
+                                    id="birthdate"
+                                    label="Birthday"
+                                    type="date"
+                                    defaultValue="2017-05-24"
+                                    fullWidth
+                                    onChange={(event) => handleDateChange(event)}
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
+                                />
                             </Grid>
                             <Grid item xs={12} sm={6}>
                                 <FormControl className={classes.formControl}>
