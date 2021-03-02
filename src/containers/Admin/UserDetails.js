@@ -50,7 +50,8 @@ const UsersDetail = props => {
         getUser(id)
             .then(response => {
                 if (!response.error) {
-                    setUser(response.data);
+                    console.log(response)
+                    setUser(response.data[0]);
                 }
             })
     }, [setUser, id]);
@@ -63,10 +64,11 @@ const UsersDetail = props => {
             {/* <Navbar/> */}
             <Users />
             <Paper className={classes.paper}>
-              <h4>First Name : {user && user.first_name}</h4>
-              <h4>Last Name : {user && user.last}</h4>
-              <h4>Email : {user && user.email}</h4>
-              <h4>Gender : {user && user.gender}</h4>
+                <div>
+                    {Object.keys(user).map((users, index) => {
+                        return(<h4>{users} : {user && user[users]}</h4>)
+                    })}
+                </div>
               <Contact/>
             </Paper>
           </div>

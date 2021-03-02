@@ -253,6 +253,7 @@ const UserProfile = props =>  {
                                     checked={empDetails[0].is_supervisor}
                                     name="checkedB"
                                     color="primary"
+                                    disabled 
                                 />
                                 }
                                 label="Supervisor"

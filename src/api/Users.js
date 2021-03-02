@@ -3,7 +3,7 @@ import { getRequest, postRequest, putRequest, deleteRequest} from "./utils";
 const BASE_URL = "/api/admin";
 export const getAllUsers = (id) => getRequest(`${BASE_URL}/empList/${id}`);
 
-export const getUser = (id) => getRequest(`${BASE_URL}/user/${id}`);
+export const getUser = (id) => getRequest(`api/employee/profile/${id}`);
 
 export const deleteUsers = (id) => deleteRequest(`${BASE_URL}/user/${id}`);
 

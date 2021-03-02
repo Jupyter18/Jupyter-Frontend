@@ -95,7 +95,7 @@ const LeaveSum = props => {
           + Add new Leave
         </Button>
         <Grid container spacing={3} className={classes.grid}>
-          <Grid item xs={12} sm={3}>
+          <Grid item xs={12} sm={4}>
             <Table
               data={leaveSum.fixed}
               title="Fixed Leaves"
@@ -103,7 +103,7 @@ const LeaveSum = props => {
               tableOptions={tableOptions}
             />
           </Grid>
-          <Grid item xs={12} sm={3}>
+          <Grid item xs={12} sm={4}>
             <Table
               data={leaveSum.approved}
               title="Approved leaves"
@@ -111,7 +111,7 @@ const LeaveSum = props => {
               tableOptions={tableOptions}
             />
           </Grid>
-          <Grid item xs={12} sm={3}>
+          <Grid item xs={12} sm={4}>
             <Table
               data={leaveSum.applied}
               title="Applied Leave"

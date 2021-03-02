@@ -11,6 +11,15 @@ import Navbar from "../../components/Navbar/Navbar";
 import Alert from '../../components/UI/FHAlert/FHAlert';
 import { removeAlert } from "../../store/actions/index";
 
+import TextField from '@material-ui/core/TextField';
+import { checkValidity } from '../../shared/validate';
+import Card from '@material-ui/core/Card';
+import CardHeader from '@material-ui/core/CardHeader';
+import CardContent from '@material-ui/core/CardContent';
+import MenuItem from '@material-ui/core/MenuItem';
+import Button from "@material-ui/core/Button";
+import Select from '@material-ui/core/Select';
+
 const CusUserTable = "Custom Attributes Table";
 
 const tableOptions = {
@@ -22,14 +31,42 @@ const useStyles = makeStyles((theme) => ({
   paper: {
     padding: theme.spacing(2),
     textAlign: 'center',
-    width: '60%',
+    width: '100%',
     color: 'blue',
     display: 'flex',
-    alignContent: 'center',
-    justifyContent: 'center',
-    justifyItems: 'center'
+    flexDirection: "row"
   },
 }));
+
+const inputDefinitions = {
+  employeeId: {
+      label: 'Employee Id*',
+      validations: {
+          required: true,
+          minLength: 2,
+          maxLength: 40,
+          validationErrStr: 'Use between 6 and 40 characters for your first Name',
+      }
+  },
+  employeeId: {
+    label: 'Employee Id*',
+    validations: {
+        required: true,
+        minLength: 2,
+        maxLength: 40,
+        validationErrStr: 'Use between 6 and 40 characters for your first Name',
+    }
+  },
+  AttributeValue: {
+      label: 'Attribute Value*',
+      validations: {
+          required: true,
+          minLength: 2,
+          maxLength: 40,
+          validationErrStr: 'Use between 6 and 40 characters for your Last Name',
+      }
+  },
+};
 
 const Users = props => {
   // let history = useHistory();
@@ -126,6 +163,47 @@ const Users = props => {
     [addAlert, cusattributes]
   );
 
+  const [employeeId, setEmployeeId] =useState();
+  const [employeeIdErr, setEmployeeIdErr] =useState();
+  const [attributeValue, setAttributeValue] =useState();
+  const [attributeValueErr, setAttributeValueErr] =useState();
+  
+  const inputChangeHandler = useCallback((event, inputId) => {
+    let validationConst = inputDefinitions[inputId].validations;
+    let isValid = checkValidity(validationConst, event.target.value);
+    if (inputId==="employeeId") {
+        setEmployeeId(event.target.value)
+        setEmployeeIdErr(!isValid)
+    }  
+    if (inputId==="AttributeValue") {
+        setAttributeValue(event.target.value)
+        setAttributeValueErr(!isValid)
+    }
+  }, []);
+
+  const onSubmitHandler = useCallback((event) => {
+    event.preventDefault()
+    let obj={
+        "": employeeId,
+        "last_name": attributeValue,
+        // "birth_date": selectedDate,
+    }
+    console.log(JSON.stringify(obj))
+    // saveuser(obj)
+    //         .then((response) => {
+    //             if (!response.error) {
+    //                 addAlert({
+    //                     message: "User Saved Successfully!",
+    //                 });
+    //             }else{
+    //                 addAlert({
+    //                     message: response.error.response.data.message,
+    //                 });
+    //             }
+                
+    //         })
+  }, []);
+
   const tableColumns = [
     { title: "Column Name", field: "COLUMN_NAME"},
     { title: "Column Type", field: "COLUMN_TYPE", lookup: { int:"int", long_string:"long_string", short_string:"short_string",img:"img",date:"date"}},
@@ -137,8 +215,8 @@ const Users = props => {
     return (
     <div >
       <Navbar />
+      <Alert handleAlertClose={handleAlertClose} alerts={props.alerts} />
       <div className={classes.paper}>
-        <Alert handleAlertClose={handleAlertClose} alerts={props.alerts} />
         <Table
           data={cusattributes}
           title={CusUserTable}
@@ -150,6 +228,47 @@ const Users = props => {
             onRowDelete: oldData => deleteUser(oldData),
           }}
         />
+        <form noValidate autoComplete="off" onSubmit={onSubmitHandler}>
+          <Card className={classes.root}>
+              <CardHeader
+                  title="Fill Custom attributes to Employee"
+                  subheader="Jupyter"
+              />
+              <CardContent>
+                  <TextField
+                      id="employeeId"
+                      label="EmployeeId"
+                      type="name"
+                      fullWidth
+                      autoComplete="name"
+                      onChange={(event)=>inputChangeHandler(event,"employeeId")}
+                      error={employeeIdErr}
+                  />
+                  <Select
+                      labelId="Select Title"
+                      id="title"
+                      // value={title}
+                      // onChange={handleChangeTitle}
+                      defaultValue="" 
+                  >
+                      <MenuItem value={"1"}>1</MenuItem>
+                      <MenuItem value={"2"}>2</MenuItem>
+                  </Select>
+                  <TextField
+                      id="AttributeValue"
+                      label="Attribute Value"
+                      type="name"
+                      fullWidth
+                      autoComplete="name"
+                      onChange={(event)=>inputChangeHandler(event,"AttributeValue")}
+                      error={attributeValueErr}
+                  />
+                  <Button variant="contained" color="primary" className={classes.button} type="submit" fullWidth>
+                      Save
+                  </Button>
+              </CardContent>
+          </Card>
+        </form>
       </div>
     </div>
     )

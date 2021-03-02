@@ -66,7 +66,7 @@ function Navbar(props) {
                 to='/attribute'
                 className='nav-links'
               >
-                Add Custom Attributes
+                Custom Attributes
               </Link>
             </li>
             <li className='nav-item'>
