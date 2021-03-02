@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from "react";
 import { connect } from 'react-redux';
 
-import {saveLeaveSup} from "../../api/LeavesAPI"
+import {saveLeave} from "../../api/LeavesAPI"
 import * as actions from '../../store/actions/index';
 
 // @material-ui/core components
@@ -111,7 +111,7 @@ const UserProfile = props =>  {
             "leave_type_id": leave_Type,
         }
         console.log(JSON.stringify(obj))
-        saveLeaveSup(obj)
+        saveLeave(obj)
                 .then((response) => {
                     if (!response.error) {
                         addAlert({

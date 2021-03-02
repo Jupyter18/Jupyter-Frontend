@@ -11,7 +11,7 @@ import { Button } from "@material-ui/core";
 // import * as routez from '../../shared/routes';
 import Navbar from "../../components/Navbar/NavbarEmp"
 import FHModal from "../../components/UI/FHModal/FHModal";
-import AddLeaveForm from "../Supervisor/AddLeaveForm";
+import AddLeaveForm from "../Employees/AddEmpLeaveForm";
 // import { SNACKBAR } from "../../components/UI/FHSnackBar/FHSnackBar";
 // import FHButton from "../../components/UI/FHButton/FHButton";
 // import Switch from '@material-ui/core/Switch';

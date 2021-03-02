@@ -9,7 +9,7 @@ import Grid from "@material-ui/core/Grid";
 import { Button } from "@material-ui/core";
 import Navbar from "../../components/Navbar/NavbarHRM"
 import FHModal from "../../components/UI/FHModal/FHModal";
-import AddLeaveForm from "../Supervisor/AddLeaveForm";
+import HRMAddLeaveForm from "../HRM/HRMAddLeaveForm";
 // import { SNACKBAR } from "../../components/UI/FHSnackBar/FHSnackBar";
 // import FHButton from "../../components/UI/FHButton/FHButton";
 // import Switch from '@material-ui/core/Switch';
@@ -118,7 +118,7 @@ const LeaveSum = props => {
         </Grid>
         <FHModal
           body={
-            <AddLeaveForm
+            <HRMAddLeaveForm
               isEdit={isEdit}
               setIsModalOpen={setIsModalOpen}
             />

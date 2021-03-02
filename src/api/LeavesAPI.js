@@ -9,3 +9,7 @@ export const Reject_Leaave = () => putRequest(`/api/employee/companydata`);
 export const getLeaveSummery = (id) => getRequest(`api/employee/leavesummary/${id}`);
 
 export const saveLeave = (data) => postRequest(`/api/employee/addleave`,data);
+
+export const saveLeaveHRM = (data) => postRequest(`/api/hrm/addleave`,data);
+
+export const saveLeaveSup = (data) => postRequest(`/api/supervisor/addleave`,data);
