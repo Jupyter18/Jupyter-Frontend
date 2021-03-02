@@ -1,4 +1,5 @@
 import React from "react";
+import {saveContactNumbers} from "../../api/Other"
 
 import "./style.css";
 
@@ -7,18 +8,18 @@ export default class IncorporationForm extends React.Component {
     super();
     this.state = {
       name: "",
-      shareholders: [{ name: "" }]
+      shareholders: [{ phone_number: "" }]
     };
   }
 
   handleNameChange = evt => {
-    this.setState({ name: evt.target.value });
+    this.setState({ phone_number: evt.target.value });
   };
 
   handleShareholderNameChange = idx => evt => {
     const newShareholders = this.state.shareholders.map((shareholder, sidx) => {
       if (idx !== sidx) return shareholder;
-      return { ...shareholder, name: evt.target.value };
+      return { ...shareholder, phone_number: evt.target.value };
     });
 
     this.setState({ shareholders: newShareholders });
@@ -27,12 +28,28 @@ export default class IncorporationForm extends React.Component {
 
   handleSubmit = evt => {
     const { name, shareholders } = this.state;
+    console.log(shareholders)
+    let data=[]
+    this.state.shareholders.map((shareholder, sidx) => {
+      // if (idx !== sidx) return shareholder;
+      let obj={
+        "emp_id": 10000,shareholder
+      }
+      data.push(obj)
+    });
+    console.log(data)
     alert(`Incorporated: ${name} with ${shareholders.length} Contact Numbers`);
+    saveContactNumbers(data)
+        .then((response) => {
+          if (!response.error) {
+              console.log(data)
+          }
+        })
   };
 
   handleAddShareholder = () => {
     this.setState({
-      shareholders: this.state.shareholders.concat([{ name: "" }])
+      shareholders: this.state.shareholders.concat([{ phone_number: "" }])
     });
   };
 

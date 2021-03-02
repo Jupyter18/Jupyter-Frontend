@@ -7,12 +7,11 @@ import { useParams } from "react-router-dom";
 // import { USERS } from "../../shared/routes";
 import { Paper } from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles';
-import { getUser } from "../../api/Users";
+import { getUserHRM } from "../../api/Users";
 // import Button from '@material-ui/core/Button';
 // import { updateObject, formIsValid } from '../../shared/utility';
 import * as actions from '../../store/actions/index';
-import Users from "../Admin/Users"
-import Contact from "../Admin/Contact"
+import HRMUsers from "../HRM/HRMusers"
 // import Navbar from "../../components/Navbar/Navbar"
 
 // const tableOptions = {
@@ -47,7 +46,7 @@ const UsersDetail = props => {
     const [user, setUser] = useState();
 
     useEffect(() => {
-        getUser(id)
+        getUserHRM(id)
             .then(response => {
                 if (!response.error) {
                     setUser(response.data);
@@ -61,13 +60,12 @@ const UsersDetail = props => {
         return (
           <div>
             {/* <Navbar/> */}
-            <Users />
+            <HRMUsers />
             <Paper className={classes.paper}>
               <h4>First Name : {user && user.first_name}</h4>
               <h4>Last Name : {user && user.last}</h4>
               <h4>Email : {user && user.email}</h4>
               <h4>Gender : {user && user.gender}</h4>
-              <Contact/>
             </Paper>
           </div>
         );

@@ -11,3 +11,5 @@ export const getCusAttributes = () => getRequest(`/api/admin/getCstAttribute`);
 export const deleteCusAttributes = (field_name) => deleteRequest(`/api/admin/removeAttribute/${field_name}`);
 
 export const saveCusAttributes = (body) => postRequest(`/api/admin/addAttribute`,body);
+
+export const saveContactNumbers = (body) => postRequest(`/api/admin/empContants`,body);

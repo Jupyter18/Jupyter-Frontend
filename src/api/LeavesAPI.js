@@ -8,4 +8,4 @@ export const Reject_Leaave = () => putRequest(`/api/employee/companydata`);
 
 export const getLeaveSummery = (id) => getRequest(`api/employee/leavesummary/${id}`);
 
-export const saveLeave = (id) => postRequest(`/api/employee/addleave/${id}`);
+export const saveLeave = (data) => postRequest(`/api/employee/addleave`,data);
