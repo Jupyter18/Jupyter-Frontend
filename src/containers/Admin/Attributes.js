@@ -20,6 +20,8 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Button from "@material-ui/core/Button";
 import Select from '@material-ui/core/Select';
 
+import InputLabel from "@material-ui/core/InputLabel";
+
 const CusUserTable = "Custom Attributes Table";
 
 const tableOptions = {
@@ -235,6 +237,7 @@ const Users = props => {
                   subheader="Jupyter"
               />
               <CardContent>
+                  <InputLabel id="demo-simple-select-label" >Employee Id</InputLabel>
                   <TextField
                       id="employeeId"
                       label="EmployeeId"
@@ -244,12 +247,14 @@ const Users = props => {
                       onChange={(event)=>inputChangeHandler(event,"employeeId")}
                       error={employeeIdErr}
                   />
+                  <InputLabel id="demo-simple-select-label" >Attribute Name</InputLabel>
                   <Select
                       labelId="Select Title"
                       id="title"
                       // value={title}
                       // onChange={handleChangeTitle}
                       defaultValue="" 
+                      fullWidth
                   >
                       <MenuItem value={"1"}>1</MenuItem>
                       <MenuItem value={"2"}>2</MenuItem>
@@ -263,6 +268,7 @@ const Users = props => {
                       onChange={(event)=>inputChangeHandler(event,"AttributeValue")}
                       error={attributeValueErr}
                   />
+                  <br />
                   <Button variant="contained" color="primary" className={classes.button} type="submit" fullWidth>
                       Save
                   </Button>

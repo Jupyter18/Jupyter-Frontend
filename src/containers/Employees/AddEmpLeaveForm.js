@@ -113,11 +113,13 @@ const UserProfile = props =>  {
     const [selectedDate, setSelectedDate] = useState();
     const handleDateChange = (event) => {
         setSelectedDate(event.target.value);
+        console.log(selectedDate)
     };
 
     const [leavetype, setLeaveType] = useState();
     const handleChangeLeaveType = (event) => {
         setLeaveType(event.target.value);
+        console.log(leavetype)
     };
 
     const onSubmitHandler = useCallback((event) => {
@@ -141,7 +143,7 @@ const UserProfile = props =>  {
                     }
                     
                 })
-    }, [addAlert,employee_ID,leave_Type,props.employeeID]);
+    }, [addAlert,selectedDate,leavetype,props.employeeID]);
 
     
 
