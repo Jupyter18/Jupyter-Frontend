@@ -140,11 +140,11 @@ const UserProfile = props =>  {
                             </Grid>
                             <Grid item xs={12} sm={6}>
                                 <TextField
-                                    id="email"
-                                    label="Email"
-                                    type="email"
+                                    id="emp_id"
+                                    label="Employee Id"
+                                    type="name"
                                     fullWidth
-                                    value={empDetails[0].email}
+                                    value={props.employeeID}
                                     InputProps={{
                                         readOnly: true,
                                     }}
@@ -152,11 +152,11 @@ const UserProfile = props =>  {
                             </Grid>
                             <Grid item xs={12} sm={6}>
                                 <TextField
-                                    id="contactnumber"
-                                    label="Contact Number"
+                                    id="email"
+                                    label="Email"
                                     type="name"
                                     fullWidth
-                                    value={empDetails[0].marital_status}
+                                    value={empDetails[0].email}
                                     InputProps={{
                                         readOnly: true,
                                     }}
