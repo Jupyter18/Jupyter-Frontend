@@ -5,9 +5,12 @@ import { makeStyles } from "@material-ui/core/styles";
 import { getAllLeavesApplications,Accept_Leave,Reject_Leaave} from "../../api/LeavesAPI";
 import {removeItemFromArray} from "../../shared/utility"
 import Table from "../../components/UI/Table/MaterialTable/Table";
+import * as actions from '../../store/actions/index';
 // import Spinner from "../../components/UI/Spinner/Spinner";
 import { Button } from "@material-ui/core";
 import Navbar from "../../components/Navbar/NavbarSup"
+import Alert from '../../components/UI/FHAlert/FHAlert';
+import { removeAlert } from "../../store/actions/index";
 
 const tableTitle = "User Information";
 
@@ -26,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Leaves = props => {
   const classes = useStyles();
-  // const { addAlert } = props;
+  const { addAlert } = props;
   const [isLoading, setIsLoading] = useState(true);
   const [leaves, setLeaves] = useState([]);
 
@@ -42,6 +45,11 @@ const Leaves = props => {
         .finally(() => setIsLoading(false));
   }, [props.employeeID]);
 
+  const removeAlert = props.removeAlert;
+  const handleAlertClose = useCallback((alertId) => {
+      removeAlert(alertId);
+  }, [removeAlert]);
+
   const AcceptLeave = useCallback((rowData) => {
     let data={
       "emp_id":rowData.emp_id,
@@ -50,11 +58,11 @@ const Leaves = props => {
     Accept_Leave(data)
         .then((response) => {
             console.log(response.data);
-            setLeaves(removeItemFromArray(leaves, 'emp_id',rowData.emp_id ))
-            if (!response.error) {              
-                // addAlert({
-                //     message: "Leave Accepted Successful!",
-                // });
+            if (!response.error) {     
+                setLeaves(removeItemFromArray(leaves, 'emp_id',rowData.emp_id ))         
+                addAlert({
+                    message: "Leave Acception Successful!",
+                });
             }
         });
     }, [leaves]);
@@ -67,11 +75,11 @@ const Leaves = props => {
         Reject_Leaave(data)
             .then((response) => {
                 console.log(response.data);
-                setLeaves(removeItemFromArray(leaves, 'emp_id',rowData.emp_id ))
                 if (!response.error) {
-                    // addAlert({
-                    //     message: "Leave Rejected Successful!",
-                    // });
+                  setLeaves(removeItemFromArray(leaves, 'emp_id',rowData.emp_id ))
+                  addAlert({
+                    message: "Leave Rejection Successful!",
+                  });
                 }
             });
     }, [leaves]);
@@ -111,6 +119,7 @@ const Leaves = props => {
     return (
       <div className={classes.root}>
         <Navbar/>
+        <Alert handleAlertClose={handleAlertClose} alerts={props.alerts} /> 
         <Table
           data={leaves}
           title={tableTitle}
@@ -132,11 +141,14 @@ const mapStateToProps = (state) => {
       isAdmin:state.auth.IsAdmin,
       isHrm:state.auth.IsHrm,
       IsSupervisor:state.auth.IsSupervisor,
+      alerts: state.alert.alerts
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    addAlert: alert => dispatch(actions.addAlert(alert)),
+    removeAlert: (alertId) => dispatch(removeAlert(alertId))
   }
 };
 
