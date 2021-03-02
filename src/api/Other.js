@@ -13,3 +13,5 @@ export const deleteCusAttributes = (field_name) => deleteRequest(`/api/admin/rem
 export const saveCusAttributes = (body) => postRequest(`/api/admin/addAttribute`,body);
 
 export const saveContactNumbers = (body) => postRequest(`/api/admin/empContants`,body);
+
+export const addCustomData = (id,body) => postRequest(`/api/hrm/customData/${id}`,body);

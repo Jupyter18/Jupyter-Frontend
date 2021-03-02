@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from "react";
 import { connect } from 'react-redux';
 
-import {saveLeave} from "../../api/LeavesAPI"
+import {saveLeaveSup} from "../../api/LeavesAPI"
 import * as actions from '../../store/actions/index';
 
 // @material-ui/core components
@@ -26,6 +26,10 @@ import { KeyboardDatePicker, MuiPickersUtilsProvider } from "@material-ui/picker
 
 import Alert from '../../components/UI/FHAlert/FHAlert';
 import { removeAlert } from "../../store/actions/index";
+
+import InputLabel from "@material-ui/core/InputLabel";
+import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@material-ui/core/Select';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -106,20 +110,27 @@ const UserProfile = props =>  {
     }, []);
 
     // birthdate
-    const [selectedDate, setSelectedDate] = useState(new Date());
-    const handleDateChange = (date) => {
-        setSelectedDate(date);
+    const [selectedDate, setSelectedDate] = useState();
+    const handleDateChange = (event) => {
+        setSelectedDate(event.target.value);
+        console.log(selectedDate)
+    };
+
+    const [leavetype, setLeaveType] = useState();
+    const handleChangeLeaveType = (event) => {
+        setLeaveType(event.target.value);
+        console.log(leavetype)
     };
 
     const onSubmitHandler = useCallback((event) => {
         event.preventDefault()
         let obj={
-            "emp_id": employee_ID,
-            "leave_date": "2021-04-29",
-            "leave_type_id": leave_Type,
+            "emp_id": props.employeeID,
+            "leave_date": selectedDate,
+            "leave_type_id": leavetype,
         }
         console.log(JSON.stringify(obj))
-        saveLeave(obj)
+        saveLeaveSup(obj)
                 .then((response) => {
                     if (!response.error) {
                         addAlert({
@@ -132,7 +143,7 @@ const UserProfile = props =>  {
                     }
                     
                 })
-    }, [addAlert,employee_ID,leave_Type]);
+    }, [addAlert,selectedDate,leavetype,props.employeeID]);
 
     
 
@@ -163,7 +174,7 @@ const UserProfile = props =>  {
                     <CardContent>
                     <form noValidate autoComplete="off" onSubmit={onSubmitHandler}>
                         <Grid container spacing={3}>
-                            <Grid item xs={12} sm={12}>
+                            {/* <Grid item xs={12} sm={12}>
                                 <TextField
                                     id="employeeID"
                                     label="Employee ID"
@@ -173,30 +184,34 @@ const UserProfile = props =>  {
                                     onChange={(event)=>inputChangeHandler(event,"employeeId")}
                                     error={employeeIderr}
                                 />
-                            </Grid>
+                            </Grid> */}
                             <Grid item xs={12} sm={12}>
-                                <TextField
-                                    id="leaveType"
-                                    label="Leave Type"
-                                    type="name"
-                                    fullWidth
-                                    autoComplete="name"
-                                    onChange={(event)=>inputChangeHandler(event,"leaveType")}
-                                    error={leaveTypeerr}
-                                />
+                                    <InputLabel id="genderlabel" >Leave Type</InputLabel>
+                                    <Select
+                                        labelId="Leave Type"
+                                        id="leavetype"
+                                        value={leavetype}
+                                        onChange={handleChangeLeaveType}
+                                        defaultValue="" 
+                                        fullWidth
+                                    >
+                                        <MenuItem value={1}>Annual</MenuItem>
+                                        <MenuItem value={2}>Cassual</MenuItem>
+                                        <MenuItem value={3}>Maternity</MenuItem>
+                                        <MenuItem value={4}>No-Pay</MenuItem>
+                                    </Select>
                             </Grid>
                             <Grid item xs={12} sm={12}>
                                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                                    <KeyboardDatePicker
-                                        margin="normal"
+                                    <TextField
                                         id="date"
                                         label="Date"
-                                        format="MM/dd/yyyy"
-                                        value={selectedDate}
+                                        type="date"
+                                        defaultValue="2017-05-24"
                                         fullWidth
-                                        onChange={handleDateChange}
-                                        KeyboardButtonProps={{
-                                            'aria-label': 'change date',
+                                        onChange={(event) => handleDateChange(event)}
+                                        InputLabelProps={{
+                                            shrink: true,
                                         }}
                                     />
                                 </MuiPickersUtilsProvider>
@@ -216,7 +231,8 @@ const UserProfile = props =>  {
 const mapStateToProps = (state) => {
 	return {
     isAuthenticated: state.auth.token != null,
-    alerts: state.alert.alerts
+    alerts: state.alert.alerts,
+    employeeID:state.auth.employeeID,
 	};
 };
 

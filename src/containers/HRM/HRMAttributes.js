@@ -2,12 +2,12 @@ import React , {useState, useEffect, useCallback } from "react";
 import { connect } from 'react-redux';
 // import { useHistory } from "react-router-dom";
 
-import { getCusAttributes , saveCusAttributes, deleteCusAttributes} from "../../api/Other"
+import { getCusAttributes , saveCusAttributes, deleteCusAttributes, addCustomData} from "../../api/Other"
 import { removeItemFromArray, addItemToArray, } from "../../shared/utility";
 import { makeStyles } from "@material-ui/core/styles";
 import Table from "../../components/UI/Table/MaterialTable/Table";
 import * as actions from '../../store/actions/index';
-import Navbar from "../../components/Navbar/Navbar";
+import Navbar from "../../components/Navbar/NavbarHRM";
 import Alert from '../../components/UI/FHAlert/FHAlert';
 import { removeAlert } from "../../store/actions/index";
 
@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
   paper: {
     padding: theme.spacing(2),
     textAlign: 'center',
-    width: '60%',
+    width: '100%',
     color: 'blue',
     display: 'flex',
     flexDirection: "row"
@@ -56,7 +56,7 @@ const inputDefinitions = {
         required: true,
         minLength: 2,
         maxLength: 40,
-        validationErrStr: 'Use between 6 and 40 characters for your first Name',
+        validationErrStr: 'Use between 6 and 40 characters',
     }
   },
   AttributeValue: {
@@ -65,9 +65,18 @@ const inputDefinitions = {
           required: true,
           minLength: 2,
           maxLength: 40,
-          validationErrStr: 'Use between 6 and 40 characters for your Last Name',
+          validationErrStr: 'Use between 6 and 40 characters',
       }
   },
+  AttributeName: {
+    label: 'Attribute Name*',
+    validations: {
+        required: true,
+        minLength: 2,
+        maxLength: 40,
+        validationErrStr: 'Use between 6 and 40 characters',
+    }
+},
 };
 
 const Users = props => {
@@ -169,6 +178,8 @@ const Users = props => {
   const [employeeIdErr, setEmployeeIdErr] =useState();
   const [attributeValue, setAttributeValue] =useState();
   const [attributeValueErr, setAttributeValueErr] =useState();
+  const [attributName, setAttributeName] =useState();
+  const [attributeNameErr, setAttributeNameErr] =useState();
   
   const inputChangeHandler = useCallback((event, inputId) => {
     let validationConst = inputDefinitions[inputId].validations;
@@ -176,34 +187,39 @@ const Users = props => {
     if (inputId==="employeeId") {
         setEmployeeId(event.target.value)
         setEmployeeIdErr(!isValid)
+        console.log(employeeId)
     }  
     if (inputId==="AttributeValue") {
         setAttributeValue(event.target.value)
         setAttributeValueErr(!isValid)
+        console.log(attributeValue)
     }
+    if (inputId==="AttributeName") {
+      setAttributeName(event.target.value)
+      setAttributeNameErr(!isValid)
+      console.log(attributName)
+  }
   }, []);
 
   const onSubmitHandler = useCallback((event) => {
     event.preventDefault()
     let obj={
-        "": employeeId,
-        "last_name": attributeValue,
-        // "birth_date": selectedDate,
+        setAttributeName: setAttributeValue,
     }
     console.log(JSON.stringify(obj))
-    // saveuser(obj)
-    //         .then((response) => {
-    //             if (!response.error) {
-    //                 addAlert({
-    //                     message: "User Saved Successfully!",
-    //                 });
-    //             }else{
-    //                 addAlert({
-    //                     message: response.error.response.data.message,
-    //                 });
-    //             }
+    addCustomData(employeeId,obj)
+            .then((response) => {
+                if (!response.error) {
+                    addAlert({
+                        message: "User Saved Successfully!",
+                    });
+                }else{
+                    addAlert({
+                        message: response.error.response.data.message,
+                    });
+                }
                 
-    //         })
+            })
   }, []);
 
   const tableColumns = [
@@ -217,8 +233,8 @@ const Users = props => {
     return (
     <div >
       <Navbar />
+      <Alert handleAlertClose={handleAlertClose} alerts={props.alerts} />
       <div className={classes.paper}>
-        <Alert handleAlertClose={handleAlertClose} alerts={props.alerts} />
         <Table
           data={cusattributes}
           title={CusUserTable}
@@ -230,7 +246,7 @@ const Users = props => {
             onRowDelete: oldData => deleteUser(oldData),
           }}
         />
-        {/* <form noValidate autoComplete="off" onSubmit={onSubmitHandler}>
+        <form noValidate autoComplete="off" onSubmit={onSubmitHandler}>
           <Card className={classes.root}>
               <CardHeader
                   title="Fill Custom attributes to Employee"
@@ -247,18 +263,19 @@ const Users = props => {
                       onChange={(event)=>inputChangeHandler(event,"employeeId")}
                       error={employeeIdErr}
                   />
+                  <br/>
                   <InputLabel id="demo-simple-select-label" >Attribute Name</InputLabel>
-                  <Select
-                      labelId="Select Title"
-                      id="title"
-                      // value={title}
-                      // onChange={handleChangeTitle}
-                      defaultValue="" 
+                  <TextField
+                      id="AttributeName"
+                      label="Attribute Name"
+                      type="name"
                       fullWidth
-                  >
-                      <MenuItem value={"1"}>1</MenuItem>
-                      <MenuItem value={"2"}>2</MenuItem>
-                  </Select>
+                      autoComplete="name"
+                      onChange={(event)=>inputChangeHandler(event,"AttributeName")}
+                      error={attributeNameErr}
+                  />
+                  <br />
+                  <InputLabel id="demo-simple-select-label" >Attribute Value</InputLabel>
                   <TextField
                       id="AttributeValue"
                       label="Attribute Value"
@@ -274,7 +291,7 @@ const Users = props => {
                   </Button>
               </CardContent>
           </Card>
-        </form> */}
+        </form>
       </div>
     </div>
     )

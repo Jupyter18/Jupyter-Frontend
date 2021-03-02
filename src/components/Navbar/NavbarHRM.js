@@ -59,6 +59,11 @@ function Navbar(props) {
               </Link>
             </li>
             <li className='nav-item'>
+              <Link to='/hrmattribute' className='nav-links'>
+                Custom Attributes
+              </Link>
+            </li>
+            <li className='nav-item'>
               <Link
                 to='/hrmuserregisteration'
                 className='nav-links'

@@ -44,7 +44,7 @@ const UsersDetail = props => {
     // const { addAlert } = props;
     const classes = useStyles();
     const { id } = useParams();
-    const [user, setUser] = useState();
+    const [user, setUser] = useState([]);
 
     useEffect(() => {
         getUser(id)

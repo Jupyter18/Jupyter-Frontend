@@ -21,3 +21,5 @@ export const HRMEMPVIEWPROFILE = '/hrmempviewemployee'
 export const HRMADDLEAVEAPPLICATION = '/hrmaddleaveapplication'
 export const REPORTS = '/reports'
 export const EMPLEAVESTATUS= '/leavestatus';
+export const HRMATTRIBUTE = '/hrmattribute'
+
