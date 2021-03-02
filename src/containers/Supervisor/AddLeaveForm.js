@@ -69,7 +69,7 @@ const inputDefinitions = {
         label: 'Leave Type*',
         validations: {
             required: true,
-            minLength: 2,
+            minLength: 1,
             maxLength: 40,
             validationErrStr: 'Use between 6 and 40 characters for your Last Name',
         }
@@ -98,7 +98,7 @@ const UserProfile = props =>  {
     }, []);
 
     // birthdate
-    const [selectedDate, setSelectedDate] = useState(new Date('2014-08-18T21:11:54'));
+    const [selectedDate, setSelectedDate] = useState(new Date());
     const handleDateChange = (date) => {
         setSelectedDate(date);
     };
@@ -106,9 +106,9 @@ const UserProfile = props =>  {
     const onSubmitHandler = useCallback((event) => {
         event.preventDefault()
         let obj={
-            "employeeId": employee_ID,
-            "leaveType": leave_Type,
-            "birth_date": "1997-07-28",
+            "emp_id": employee_ID,
+            "leave_date": "2021-04-29",
+            "leave_type_id": leave_Type,
         }
         console.log(JSON.stringify(obj))
         saveLeave(obj)
