@@ -85,6 +85,9 @@ const Leaves = props => {
   );
 
     console.log(props.isAuthenticated)
+    console.log(props.isAdmin)
+    console.log(props.isHrm)
+    console.log(props.IsSupervisor)
 
   const tableColumns = [
     { title: "First Name", field: "first_name"},
