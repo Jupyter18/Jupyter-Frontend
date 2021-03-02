@@ -22,6 +22,7 @@ import HRMUserDetail from '../src/containers/HRM/HRMUserDetails';
 import HRMViewProfile from '../src/containers/HRM/HRMViewProfile';
 import HRMAddLeaveApplication from './containers/HRM/HRMAddEmpLeave';
 import Reports from './containers/HRM/Reports';
+import LeaveStatus from '../src/containers/Employees/LeaveStatus'
 
 import * as routez from './shared/routes';
 import * as actions from "./store/actions/index";
@@ -62,7 +63,7 @@ function App(props) {
 
         <Route exact path={routez.EMPADDLEAVEAPPLICATION} component={EmpAddLeaveApplication}/>
         <Route exact path={routez.EMPVIEWPROFILE} component={EmpViewProfile}/>
-
+        <Route exact path={routez.EMPLEAVESTATUS} component={LeaveStatus}/>
         <Redirect path="/" to={routez.SIGNIN} />
       </Switch>
     </Suspense>

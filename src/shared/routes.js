@@ -20,3 +20,4 @@ export const HRMCONTACT = '/hrmusers/contact';
 export const HRMEMPVIEWPROFILE = '/hrmempviewemployee'
 export const HRMADDLEAVEAPPLICATION = '/hrmaddleaveapplication'
 export const REPORTS = '/reports'
+export const EMPLEAVESTATUS= '/leavestatus';

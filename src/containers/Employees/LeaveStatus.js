@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
         justifyItems: 'center'
     },
     card:{
-        width: '60%',
+        width: '100%',
     },
     formControl: {
         margin: theme.spacing(1),
@@ -45,25 +45,36 @@ const useStyles = makeStyles((theme) => ({
         marginTop: theme.spacing(2),
     }
 }));
+const addId = (arr) => {
+    arr.forEach((e,id) => {
+        e.id = id;
+        e.leave_date = new Date(e.leave_date).toISOString().slice(0, 10);
+    });
+    return arr;
+}
 
 const LeaveStatus = props =>  {
+    const rows = [
+        {
+          id: 0,
+          leave_date: '',
+          leave_type: '',
+          is_approved: '',
+        },
+      ];
     const classes = useStyles();
     // const { addAlert } = props;
     const [isLoading, setIsLoading] = useState(true);
-    const [leaveDetail, setLeaveDetail] =useState([{}]);
+    const [leaveDetail, setLeaveDetail] =useState(rows);
 
 
     useEffect(() => {
         if (isLoading) {
             getLeaveStatus()
             .then((response) => {
-              if (!response.error) {  
-                response.data.map(ob => {
-                  if(ob.is_approved === 1) ob.is_approved = "Accepted";
-                  else if(ob.is_approved === 0) ob.is_approved = "Rejected";
-                  else ob.is_approved = "Pendding...";
-                })
-                setLeaveDetail(response.data)
+              if (!response.error) {
+                const newList = addId(response.data)
+                setLeaveDetail(newList);
                 console.log(response.data)
               }
             })
@@ -83,9 +94,10 @@ const LeaveStatus = props =>  {
                     <div style={{ height: 250, width: '100%' }}>
                         <DataGrid
                             columns={[
-                            { field: 'Date' },
-                            { field: 'Leave type', width: 200 },
-                            { field: 'Status' },
+                            {field: 'id'},
+                            { field: 'leave_date', width: 200 },
+                            { field: 'leave_type', width: 200 },
+                            { field: 'is_approved', width: 200 },
                             ]}
                             rows={leaveDetail}
                         />
