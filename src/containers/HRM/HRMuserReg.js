@@ -233,10 +233,10 @@ const UserProfile = props =>  {
     };
 
     //supervisor
-    const [state, setState] = useState(false);
+    const [state, setState] = useState(0);
     
       const handleChangesupervisor = (event) => {
-        setState(event.target.checked);
+        setState(event.target.checked?1:0);
       };
 
     const onSubmitHandler = useCallback((event) => {
@@ -266,7 +266,7 @@ const UserProfile = props =>  {
                         });
                     }else{
                         addAlert({
-                            message: "Failed!",
+                            message: response.error.response.data.message,
                         });
                     }
                     

@@ -233,11 +233,11 @@ const UserProfile = props =>  {
     };
 
     //supervisor
-    const [state, setState] = useState(false);
+    const [state, setState] = useState(0);
     
-      const handleChangesupervisor = (event) => {
+    const handleChangesupervisor = (event) => {
         setState(event.target.checked?1:0);
-      };
+    };
 
     const onSubmitHandler = useCallback((event) => {
         event.preventDefault()
@@ -265,8 +265,9 @@ const UserProfile = props =>  {
                             message: "User Saved Successfully!",
                         });
                     }else{
+                        console.log(response.error.response.data.message)
                         addAlert({
-                            message: "Failed!",
+                            message: response.error.response.data.message,
                         });
                     }
                     

@@ -114,7 +114,6 @@ const Users = props => {
                         addAlert({
                             message: "User Updated Successfully!",
                         });
-                        console.log(replaceItemInArray(users, 'emp_id', newLesson, oldLesson.emp_id))
                         setUsers(replaceItemInArray(users, 'emp_id', newLesson, oldLesson.emp_id))
                         return resolve();
                     }
