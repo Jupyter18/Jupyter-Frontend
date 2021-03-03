@@ -61,16 +61,28 @@ const LeaveSum = props => {
   const [employeesReligion, setEmployeesReligion] = useState([]);
   const [employeesService, setEmployeesService] = useState([]);
   const [employeesLeaves, setEmployeesLeaves] = useState([]);
-  const [start, setStart] = useState();
-  const [end, setEnd] = useState();
+  const [start, setStart] = useState("2020-08-08");
+  const [end, setEnd] = useState("2021-12-08");
 
     const handleChangeFrom =(useCallback)((event) => {
         setStart(event.target.value);
         console.log(event.target.value)
     },[]);
 
+    const [dept, setDept] = useState(2);
+    const handleChangeDept =(useCallback)((event) => {
+        setDept(event.target.value);
+    },[dept]);
+
     const handleChangeTo =(useCallback)((event) => {
         setEnd(event.target.value);
+        getLeavesEmployees(dept,start,end)
+            .then((response) => {
+            if (!response.error) {
+                console.log(response)
+                setEmployeesLeaves(response.data);
+            }
+        })
         console.log(event.target.value)
     },[]);
 
@@ -159,18 +171,6 @@ const LeaveSum = props => {
             })
     },[service]);
 
-    const [leaves, setLeaves] = useState(1);
-    const handleChangeLeaves =(useCallback)((event) => {
-        setLeaves(event.target.value);
-        getLeavesEmployees(leaves)
-            .then((response) => {
-            if (!response.error) {
-                console.log(response)
-                setEmployeesLeaves(response.data);
-            }
-            })
-    },[leaves]);
-
   const tableColumnsTitle = [
     { title: "Employee Id", field: "emp_id"},
     { title: "First Name", field: "first_name"},
@@ -196,35 +196,32 @@ const LeaveSum = props => {
     { title: "Employee Id", field: "emp_id"},
     { title: "First Name", field: "first_name"},
     { title: "Last Name", field: "last_name"},
-    { title: "Department Name", field: "department_name"},
+    { title: "Email", field: "email"},
   ];
 
   const tableColumnsQualification = [
     { title: "Employee Id", field: "emp_id"},
     { title: "First Name", field: "first_name"},
     { title: "Last Name", field: "last_name"},
-    { title: "Department Name", field: "department_name"},
+    { title: "Email", field: "email"},
   ];
   
   const tableColumnsReligion = [
     { title: "Employee Id", field: "emp_id"},
     { title: "First Name", field: "first_name"},
     { title: "Last Name", field: "last_name"},
-    { title: "Job Name", field: "job_name"},
+    { title: "Email", field: "email"},
   ];
 
   const tableColumnsService = [
     { title: "Employee Id", field: "emp_id"},
     { title: "First Name", field: "first_name"},
     { title: "Last Name", field: "last_name"},
-    { title: "Department Name", field: "department_name"},
+    { title: "Email", field: "email"},
   ];
 
   const tableColumnsLeaves = [
-    { title: "Employee Id", field: "emp_id"},
-    { title: "First Name", field: "first_name"},
-    { title: "Last Name", field: "last_name"},
-    { title: "Department Name", field: "department_name"},
+    { title: "Total Count", field: "Total_count"},
   ];
 
   if (false) {
@@ -451,6 +448,17 @@ const LeaveSum = props => {
                         subheader="Jupyter"
                     />
                     <CardContent>
+                        <InputLabel id="demo-simple-select-label" >Select Department</InputLabel>
+                        <Select
+                            labelId="Select Department"
+                            id="dept"
+                            value={dep}
+                            onChange={handleChangeDept}
+                            defaultValue="" 
+                        >
+                            <MenuItem value={"1"}>1</MenuItem>
+                            <MenuItem value={"2"}>2</MenuItem>
+                        </Select>
                         <InputLabel id="demo-simple-select-label" >From</InputLabel>
                         <TextField
                             id="from"

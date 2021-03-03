@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect}  from 'react';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { useHistory } from "react-router-dom";
 
 import Avatar from '@material-ui/core/Avatar';
@@ -202,6 +202,7 @@ function SignIn(props) {
                             >
                                 Sign In
                             </Button>
+                            {/* <Link color="primary" onClick={() => history.push(`${routez.REGISTER}`)}>Register</Link> */}
                         </form>
                     </div>
                 </Container>
