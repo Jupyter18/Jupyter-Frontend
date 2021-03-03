@@ -200,9 +200,9 @@ function SignIn(props) {
                                 color="primary"
                                 className={classes.submit}
                             >
-                                Sign In
+                                Jupyter Sign In
                             </Button>
-                            {/* <Link color="primary" onClick={() => history.push(`${routez.REGISTER}`)}>Register</Link> */}
+                            <Link color="primary" onClick={() => history.push(`${routez.REGISTER}`)}>Register</Link>
                         </form>
                     </div>
                 </Container>

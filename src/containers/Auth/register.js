@@ -14,6 +14,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import * as routez from '../../shared/routes';
 
 function Copyright() {
   return (
@@ -102,7 +103,7 @@ function Register(props) {
             color="primary"
             className={classes.submit}
           >
-            Sign Up
+            Jupyter Sign Up
           </Button>
         </form>
         <h3>{regRes}</h3>
