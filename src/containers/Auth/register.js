@@ -77,6 +77,7 @@ function Register(props) {
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
+        <h1>Jupiter Labs</h1>
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
         </Avatar>
@@ -103,7 +104,7 @@ function Register(props) {
             color="primary"
             className={classes.submit}
           >
-            Jupyter Sign Up
+            Sign Up
           </Button>
         </form>
         <h3>{regRes}</h3>

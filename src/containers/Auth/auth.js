@@ -185,6 +185,7 @@ function SignIn(props) {
                     <CssBaseline />
                     <div >
                         <form noValidate autoComplete="off" className={classes.form} onSubmit={onSubmitHandler}>
+                            <h1>Jupiter Labs</h1>
                             <Avatar className={classes.avatar}>
                                 <LockOutlinedIcon />
                             </Avatar>
@@ -200,7 +201,7 @@ function SignIn(props) {
                                 color="primary"
                                 className={classes.submit}
                             >
-                                Jupyter Sign In
+                                Sign In
                             </Button>
                             <Link color="primary" onClick={() => history.push(`${routez.REGISTER}`)}>Register</Link>
                         </form>
