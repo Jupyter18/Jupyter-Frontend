@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 import { connect } from "react-redux";
 
 import { Link } from 'react-router-dom';
-import './Navbar.css';
+import './NavbarHRM.css';
 
 import { authLogout, removeAlert } from "../../store/actions/index";
 
