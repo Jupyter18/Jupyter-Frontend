@@ -14,4 +14,4 @@ export const getReligionEmployees = (Id) => getRequest(`/api/hrm/report/EmpListR
 
 export const getServiceEmployees = (Id) => getRequest(`/api/hrm/report/ServiceTime/${Id}`);
 
-export const getLeavesEmployees = (Id) => getRequest(`/api/hrm/report/EmpListLeaves/${Id}`);
+export const getLeavesEmployees = (dep,start,end) => getRequest(`/api/hrm/report/DeptLeaves/${dep},${start},${end}`);
