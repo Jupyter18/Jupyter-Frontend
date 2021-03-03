@@ -110,7 +110,7 @@ const LeaveSum = props => {
             })
     },[dep]);
 
-    const [qualification, setQualification] = useState(1);
+    const [qualification, setQualification] = useState("Bsc-Eng");
     const handleChangeQualification =(useCallback)((event) => {
         setQualification(event.target.value);
         getQualificationEmployees(qualification)
@@ -122,7 +122,7 @@ const LeaveSum = props => {
             })
     },[qualification]);
 
-    const [nation, setNation] = useState(1);
+    const [nation, setNation] = useState("SL");
     const handleChangeNation =(useCallback)((event) => {
         setNation(event.target.value);
         getNationEmployees(nation)
@@ -134,7 +134,7 @@ const LeaveSum = props => {
             })
     },[nation]);
 
-    const [religion, setReligion] = useState(1);
+    const [religion, setReligion] = useState("Buddhist");
     const handleChangeReligon =(useCallback)((event) => {
         setReligion(event.target.value);
         getReligionEmployees(religion)
@@ -338,8 +338,8 @@ const LeaveSum = props => {
                                 onChange={handleChangeNation}
                                 defaultValue="" 
                             >
-                                <MenuItem value={"1"}>1</MenuItem>
-                                <MenuItem value={"2"}>2</MenuItem>
+                                <MenuItem value={"SL"}>SL</MenuItem>
+                                <MenuItem value={"India"}>India</MenuItem>
                             </Select>
                                 <Table
                                     data={employeesNation}
@@ -368,8 +368,8 @@ const LeaveSum = props => {
                             onChange={handleChangeQualification}
                             defaultValue="" 
                         >
-                            <MenuItem value={"1"}>1</MenuItem>
-                            <MenuItem value={"2"}>2</MenuItem>
+                            <MenuItem value={"Bsc-Eng"}>Bsc-Eng</MenuItem>
+                            <MenuItem value={"Diploma"}>Diploma</MenuItem>
                         </Select>
                         <Table
                             data={employeesQualification}
@@ -397,8 +397,9 @@ const LeaveSum = props => {
                             onChange={handleChangeReligon}
                             defaultValue="" 
                         >
-                            <MenuItem value={"1"}>1</MenuItem>
-                            <MenuItem value={"2"}>2</MenuItem>
+                            <MenuItem value={"Buddhist"}>Buddhist</MenuItem>
+                            <MenuItem value={"Muslim"}>Muslim</MenuItem>
+                            <MenuItem value={"Tamil"}>Tamil</MenuItem>
                         </Select>
                         <Table
                             data={employeesReligion}

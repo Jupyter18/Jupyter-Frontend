@@ -2,6 +2,7 @@ import axios from "../axios-DB";
 
 // Utility functions
 export const getRequest = async (uri) => {
+	console.log(uri)
 	try {
 		let response = await axios.get(uri);
 

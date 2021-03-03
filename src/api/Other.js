@@ -8,6 +8,8 @@ export const getGenAttributes = () => getRequest(`/api/admin//getEmpAttribute`);
 
 export const getCusAttributes = () => getRequest(`/api/admin/getCstAttribute`);
 
+export const getCusAttributesHRM = () => getRequest(`/api/hrm/getCstAttribute`);
+
 export const deleteCusAttributes = (field_name) => deleteRequest(`/api/admin/removeAttribute/${field_name}`);
 
 export const saveCusAttributes = (body) => postRequest(`/api/admin/addAttribute`,body);

@@ -2,7 +2,7 @@ import React , {useState, useEffect, useCallback } from "react";
 import { connect } from 'react-redux';
 // import { useHistory } from "react-router-dom";
 
-import { getCusAttributes , saveCusAttributes, deleteCusAttributes, addCustomData} from "../../api/Other"
+import { getCusAttributesHRM , saveCusAttributes, deleteCusAttributes, addCustomData} from "../../api/Other"
 import { removeItemFromArray, addItemToArray, } from "../../shared/utility";
 import { makeStyles } from "@material-ui/core/styles";
 import Table from "../../components/UI/Table/MaterialTable/Table";
@@ -86,7 +86,7 @@ const Users = props => {
   const { addAlert } = props;
    
   useEffect(() => {
-    getCusAttributes()
+    getCusAttributesHRM()
       .then((response) => {
         console.log(response.data)
         if (!response.error) {
@@ -199,15 +199,17 @@ const Users = props => {
       setAttributeNameErr(!isValid)
       console.log(attributName)
   }
-  }, []);
+  }, [employeeId,attributeValue,attributName]);
 
   const onSubmitHandler = useCallback((event) => {
     event.preventDefault()
-    let obj={
-        setAttributeName: setAttributeValue,
+    let objE={
+      "attributName" : attributName,
+      "attributValue" : attributeValue,
+      // attributName : attributeValue,
     }
-    console.log(JSON.stringify(obj))
-    addCustomData(employeeId,obj)
+    console.log(objE)
+    addCustomData(employeeId,objE)
             .then((response) => {
                 if (!response.error) {
                     addAlert({
@@ -220,7 +222,7 @@ const Users = props => {
                 }
                 
             })
-  }, []);
+  }, [attributName,attributeValue,employeeId]);
 
   const tableColumns = [
     { title: "Column Name", field: "COLUMN_NAME"},
@@ -240,11 +242,11 @@ const Users = props => {
           title={CusUserTable}
           columns={tableColumns}
           tableOptions={tableOptions}
-          editable={{
-            onRowAdd: newData =>saveUser(newData),
-            // onRowUpdate: (newData, oldData) =>updateUser(newData, oldData ),
-            onRowDelete: oldData => deleteUser(oldData),
-          }}
+          // editable={{
+          //   onRowAdd: newData =>saveUser(newData),
+          //   // onRowUpdate: (newData, oldData) =>updateUser(newData, oldData ),
+          //   onRowDelete: oldData => deleteUser(oldData),
+          // }}
         />
         <form noValidate autoComplete="off" onSubmit={onSubmitHandler}>
           <Card className={classes.root}>
