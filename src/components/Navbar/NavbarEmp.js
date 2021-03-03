@@ -56,7 +56,7 @@ function Navbar(props) {
             </li>
             <li className='nav-item'>
               <Link
-                to='/leavestaus'
+                to='/leavestatus'
                 className='nav-links'
               >
                 Leave Status
