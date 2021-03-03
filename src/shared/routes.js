@@ -1,4 +1,5 @@
 export const SIGNIN = '/login';
+export const CHANGEPASSWORD = '/changepassword';
 
 export const USER = '/users';
 export const USERREG = '/userregisteration';

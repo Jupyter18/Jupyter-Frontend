@@ -24,3 +24,5 @@ export const saveuserHRM = (data) => postRequest(`api/hrm/user`,data);
 export const getUserHRM = (id) => getRequest(`api/hrm/user/${id}`);
 
 export const getLeaveStatus = () => getRequest(`api/employee/leavehistory`);
+
+export const changepassword = (body) => postRequest(`api/user/changePass`,body);

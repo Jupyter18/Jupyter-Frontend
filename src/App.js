@@ -3,6 +3,8 @@ import { Route, Switch, Redirect } from 'react-router-dom';
 import { connect } from "react-redux";
 
 import SignIn from '../src/containers/Auth/auth';
+import ChangePassword from '../src/containers/Auth/ChangePassword';
+
 import Users from '../src/containers/Admin/Users';
 import UserReg from '../src/containers/Admin/userReg';
 import UserDetail from '../src/containers/Admin/UserDetails';
@@ -45,6 +47,7 @@ function App(props) {
       <Switch>
         <Route exact path={routez.CONTACT} component={Contact}/>
         <Route exact path={routez.SIGNIN} component={SignIn}/>
+        <Route exact path={routez.CHANGEPASSWORD} component={ChangePassword}/>
         
         <Route exact path={routez.USER} component={Users}/>
         <Route exact path={routez.USERREG} component={UserReg}/>

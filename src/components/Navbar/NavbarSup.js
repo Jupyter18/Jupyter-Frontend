@@ -71,6 +71,14 @@ function Navbar(props) {
             </li>
             <li className='nav-item'>
               <Link
+                to='/changepassword'
+                className='nav-links'
+              >
+                Change Password
+              </Link>
+            </li>
+            <li className='nav-item'>
+              <Link
                 to='/'
                 className='nav-links'
                 onClick={() => handleLogout()}
