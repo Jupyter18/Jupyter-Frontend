@@ -43,7 +43,7 @@ const Leaves = props => {
           }
         })
         .finally(() => setIsLoading(false));
-  }, [props.employeeID]);
+  }, [props.employeeID,leaves]);
 
   const removeAlert = props.removeAlert;
   const handleAlertClose = useCallback((alertId) => {
@@ -65,7 +65,7 @@ const Leaves = props => {
                 });
             }
         });
-    }, [leaves]);
+    }, [leaves,Accept_Leave,addAlert]);
 
     const RejectLeave = useCallback((rowData) => {
         let data={
@@ -82,7 +82,7 @@ const Leaves = props => {
                   });
                 }
             });
-    }, [leaves]);
+    }, [leaves,Reject_Leaave,addAlert]);
     
 
 

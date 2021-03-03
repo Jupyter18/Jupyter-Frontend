@@ -204,8 +204,8 @@ const Users = props => {
   const onSubmitHandler = useCallback((event) => {
     event.preventDefault()
     let objE={
-      "attributName" : attributName,
-      "attributValue" : attributeValue,
+      "attributeName" : attributName,
+      "attributeValue" : attributeValue,
       // attributName : attributeValue,
     }
     console.log(objE)
